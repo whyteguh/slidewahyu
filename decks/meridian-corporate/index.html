@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MERIDIAN — Corporate Slide Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --navy-950:#040A20; --navy-900:#071238; --navy-850:#0A1B4D;
+  --royal-800:#12266E; --royal-700:#1836A6; --royal-600:#2550DA;
+  --gold:#FFC531; --gold-soft:#FFD35C;
+  --paper:#F9FAFC; --ink:#0D1430; --muted:#5D6584; --faint:#9AA3C0;
+  --line:rgba(16,30,80,.16);
+  --dline:rgba(170,190,255,.17); --dtext:rgba(214,224,255,.66);
+  --sans:'Archivo','Helvetica Neue',Helvetica,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:var(--navy-950);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+::selection{background:var(--gold);color:var(--navy-900)}
+img{display:block}
+button{font-family:inherit}
+
+/* ============ STAGE (fixed 16:9 canvas, scaled to fit) ============ */
+#viewport{position:fixed;inset:0;overflow:hidden}
+#stage{
+  position:absolute;left:50%;top:50%;width:1280px;height:720px;
+  transform:translate(-50%,-50%);transform-origin:center;
+  box-shadow:0 40px 120px rgba(0,0,0,.55);outline:1px solid rgba(255,255,255,.07);
+  user-select:none;
+}
+
+/* ============ SLIDES ============ */
+.slide{position:absolute;inset:0;width:1280px;height:720px;background:var(--paper);color:var(--ink);visibility:hidden;overflow:hidden}
+.slide.active{visibility:visible;z-index:2}
+.slide.leaving{visibility:visible;z-index:1;animation:sOut .45s ease both}
+@keyframes sOut{to{opacity:0}}
+.slide.dark{
+  background-color:var(--navy-900);
+  background-image:
+    repeating-linear-gradient(0deg,rgba(160,180,255,.045) 0 1px,transparent 1px 90px),
+    repeating-linear-gradient(90deg,rgba(160,180,255,.045) 0 1px,transparent 1px 90px);
+  color:#fff;
+}
+
+/* ============ REVEALS ============ */
+.slide.active .rv{animation:rvUp .85s cubic-bezier(.17,.84,.26,1) both;animation-delay:var(--d,0ms)}
+.slide.active .rv.rv-l{animation-name:rvLeft}
+.slide.active .rv.rv-w{animation-name:rvWipe}
+.rv-w{transform-origin:left center}
+@keyframes rvUp{from{opacity:0;transform:translateY(26px)}}
+@keyframes rvLeft{from{opacity:0;transform:translateX(-34px)}}
+@keyframes rvWipe{from{transform:scaleX(0)}}
+
+/* ============ SHARED CHROME ============ */
+.pg-head{position:absolute;top:0;left:64px;right:64px;height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);z-index:3}
+.dark .pg-head{border-bottom-color:var(--dline)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:13.5px;letter-spacing:.18em}
+.brand .mark{width:19px;height:19px;color:var(--royal-700)}
+.dark .brand .mark{color:#fff}
+.crumb{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.2em;color:var(--muted)}
+.dark .crumb{color:var(--dtext)}
+.pg-foot{position:absolute;left:64px;right:64px;bottom:0;height:62px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.16em;color:var(--faint);z-index:3}
+.dark .pg-foot{border-top-color:var(--dline);color:rgba(200,212,255,.42)}
+.body{position:absolute;top:118px;left:64px;right:64px;bottom:64px}
+
+/* ============ UTILITIES ============ */
+.mono{font-family:var(--mono)}
+.xs{font-stretch:125%;font-variation-settings:"wdth" 125}
+.xm{font-stretch:118%;font-variation-settings:"wdth" 118}
+.xn{font-stretch:110%;font-variation-settings:"wdth" 110}
+.kick{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.24em;color:var(--royal-700)}
+.kick::before{content:"";width:9px;height:9px;background:var(--gold);flex:none}
+.dark .kick{color:var(--gold)}
+.h2{font-weight:800;font-stretch:118%;font-variation-settings:"wdth" 118;font-size:46px;line-height:1.06;letter-spacing:-.01em;margin-top:16px}
+.dark .h2{color:#fff}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy-900);font-family:var(--mono);font-weight:600;font-size:10.5px;letter-spacing:.12em;padding:8px 12px;width:max-content}
+.tri{width:9px;height:9px;color:var(--navy-900);flex:none}
+.v-tag{position:absolute;right:34px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:9.5px;font-weight:500;letter-spacing:.3em;color:rgba(200,212,255,.34);z-index:2}
+
+/* ============ MERIDIAN ARCS MOTIF ============ */
+.mer,.ty{position:absolute;inset:0;z-index:0;pointer-events:none}
+.arc{fill:none;stroke:var(--gold);stroke-width:1.4;stroke-dasharray:100;stroke-dashoffset:0}
+.arc-hl{stroke-width:2.4;opacity:.92}
+.slide.active .arc{animation:drawArc 1.6s cubic-bezier(.55,0,.2,1) both;animation-delay:var(--ad,0ms)}
+@keyframes drawArc{from{stroke-dashoffset:100}}
+.adot{fill:var(--gold)}
+.aping{fill:none;stroke:var(--gold);stroke-width:1.6;transform-box:fill-box;transform-origin:center;opacity:0}
+.slide.active .adot{animation:fadeIn .5s 1.5s both}
+.slide.active .aping{animation:ping2 2.6s ease-out 1.7s infinite}
+@keyframes ping2{0%{transform:scale(1);opacity:.8}100%{transform:scale(3.4);opacity:0}}
+@keyframes fadeIn{from{opacity:0}}
+
+/* ============ 01 · TITLE ============ */
+.t-main{position:absolute;left:64px;top:184px;width:920px;z-index:2}
+.t-main h1{margin-top:30px;font-weight:800;font-stretch:125%;font-variation-settings:"wdth" 125;font-size:78px;line-height:1.05;letter-spacing:-.012em;color:#fff}
+.t-main h1 span{display:block;white-space:nowrap}
+.t-main h1 em{font-style:italic;color:var(--gold)}
+.t-main h1 .gdot{font-style:normal;color:var(--gold)}
+.t-sub{margin-top:30px;max-width:540px;font-size:16.5px;line-height:1.65;color:var(--dtext)}
+.t-foot{position:absolute;left:64px;right:64px;bottom:44px;z-index:2;border-top:1px solid var(--dline);padding-top:24px;display:flex;align-items:center;justify-content:space-between}
+.pres strong{display:block;font-size:16px;font-weight:700;color:#fff}
+.pres .mono{display:block;margin-top:6px;font-size:9.5px;font-weight:500;letter-spacing:.18em;color:var(--dtext)}
+.t-date{font-size:10.5px;font-weight:500;letter-spacing:.18em;color:var(--dtext)}
+.t-tag{font-size:9.5px;font-weight:600;letter-spacing:.22em;color:var(--gold);border:1px solid var(--gold);padding:8px 13px}
+
+/* ============ 02 · AGENDA ============ */
+.ag{display:grid;grid-template-columns:370px 1fr;gap:70px;align-content:start}
+.ag-p{margin-top:18px;font-size:15.5px;line-height:1.65;color:var(--muted);max-width:300px}
+.ag-meta{margin-top:46px;display:flex;flex-direction:column;gap:13px}
+.ag-meta span{display:flex;align-items:center;gap:11px;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.16em;color:var(--muted)}
+.ag-meta i{width:7px;height:7px;background:var(--gold);flex:none}
+.ag-list{list-style:none}
+.ag-list li{display:grid;grid-template-columns:56px 1fr auto;gap:20px;align-items:center;padding:16px 10px 16px 14px;border-top:1px solid var(--line);transition:background .25s,box-shadow .25s;cursor:default}
+.ag-list li:last-child{border-bottom:1px solid var(--line)}
+.ag-list .n{font-size:24px;font-weight:600;color:#C7CDE3;transition:color .25s}
+.ag-list h3{font-size:19px;font-weight:700;font-stretch:112%;font-variation-settings:"wdth" 112}
+.ag-list .t p{margin-top:4px;font-size:12.5px;color:var(--muted)}
+.ag-list .pg{font-size:10px;letter-spacing:.14em;color:var(--faint)}
+.ag-list li:hover{background:#F0F3FB;box-shadow:inset 3px 0 0 var(--gold)}
+.ag-list li:hover .n{color:var(--royal-700)}
+
+/* ============ 03 · SECTION DIVIDER ============ */
+.d-main{position:absolute;left:64px;right:64px;top:206px;display:flex;align-items:flex-end;gap:46px;z-index:2}
+.d-num{font-size:258px;font-weight:800;font-stretch:125%;font-variation-settings:"wdth" 125;line-height:.8;letter-spacing:-.01em;color:transparent;-webkit-text-stroke:3px var(--gold)}
+.d-rule{width:2px;height:236px;background:var(--gold);margin-bottom:14px}
+.d-info{flex:1;padding-bottom:10px}
+.ticks{display:flex;gap:9px}
+.ticks i{width:38px;height:5px;background:rgba(255,255,255,.16)}
+.ticks i.on{background:var(--gold)}
+.d-info h2{margin:24px 0 16px;font-size:52px;font-weight:800;font-stretch:120%;font-variation-settings:"wdth" 120;line-height:1;color:#fff}
+.d-info p{max-width:520px;font-size:16.5px;line-height:1.6;color:var(--dtext)}
+.d-crumb{display:inline-flex;align-items:center;gap:11px;margin-top:30px;font-size:10px;font-weight:500;letter-spacing:.18em;color:var(--dtext)}
+.d-crumb::before{content:"";width:7px;height:7px;background:var(--gold)}
+
+/* ============ 04 · IMAGE + TEXT ============ */
+.sp{display:grid;grid-template-columns:1fr 396px;gap:62px}
+.lead{margin-top:20px;font-size:15.5px;line-height:1.7;color:var(--muted)}
+.pts{list-style:none;margin-top:26px}
+.pts li{display:flex;gap:15px;padding:15px 2px;border-top:1px solid var(--line)}
+.pts li:last-child{border-bottom:1px solid var(--line)}
+.pts i{width:9px;height:9px;background:var(--gold);flex:none;margin-top:5px}
+.pts p{font-size:13.5px;line-height:1.55;color:var(--muted)}
+.pts strong{color:var(--ink);font-weight:700}
+.share{margin-top:30px;display:flex;align-items:center;gap:14px}
+.share>span{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.16em;color:var(--muted)}
+.share .v{color:var(--royal-700)}
+.sq{display:flex;gap:5px}
+.sq i{width:26px;height:11px;background:#E3E7F2}
+.sq i.on{background:var(--gold)}
+.sp-img{display:flex;flex-direction:column;height:100%}
+.sp-img .ph{position:relative;flex:1;overflow:hidden}
+.sp-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06) brightness(.98)}
+.sp-img .ph::after{content:"";position:absolute;inset:0;background:var(--royal-700);mix-blend-mode:multiply;opacity:.72}
+.ck{position:absolute;width:22px;height:22px;border:2px solid var(--gold);z-index:2}
+.ck.tl{top:12px;left:12px;border-right:0;border-bottom:0}
+.ck.br{bottom:12px;right:12px;border-left:0;border-top:0}
+.sp-img figcaption{margin-top:12px;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.16em;color:var(--muted);display:flex;align-items:center;gap:10px}
+.sp-img figcaption::before{content:"";width:7px;height:7px;background:var(--gold)}
+
+/* ============ 05 · STATEMENT ============ */
+.st-main{position:absolute;left:64px;top:166px;width:1010px;z-index:2}
+.st-q{font-size:210px;font-weight:800;color:var(--gold);line-height:.62;height:118px;margin-left:-10px}
+.s-statement blockquote{margin-top:-34px;font-size:53px;font-weight:700;font-stretch:114%;font-variation-settings:"wdth" 114;line-height:1.24;letter-spacing:-.005em;color:#fff}
+.s-statement blockquote em{font-style:italic;color:var(--gold)}
+.st-rule{width:76px;height:3px;background:var(--gold);margin:38px 0 20px}
+.st-att{font-size:10px;font-weight:500;letter-spacing:.2em;color:var(--dtext)}
+
+/* ============ 06 · KEY NUMBERS ============ */
+.sta{display:grid;grid-template-columns:1fr 1fr}
+.sta-l{border-right:1px solid var(--line);padding-right:62px;display:flex;flex-direction:column;justify-content:center}
+.hero-num{display:block;margin-top:22px;font-size:148px;font-weight:800;line-height:.92;letter-spacing:-.035em;color:var(--royal-700)}
+.hero-bar{width:150px;height:6px;background:var(--gold);margin-top:26px}
+.sta-l .chip{margin-top:26px}
+.hero-note{margin-top:20px;max-width:360px;font-size:14px;line-height:1.65;color:var(--muted)}
+.sta-r{padding-left:62px;display:flex;flex-direction:column;justify-content:center}
+.st-row{display:flex;align-items:center;justify-content:space-between;gap:26px;padding:27px 0;border-top:1px solid var(--line)}
+.st-row:last-child{border-bottom:1px solid var(--line)}
+.st-row h4{font-size:17px;font-weight:700;font-stretch:112%;font-variation-settings:"wdth" 112}
+.st-row p{margin-top:5px;font-size:12.5px;color:var(--muted)}
+.st-row .v{font-size:52px;font-weight:800;letter-spacing:-.02em;color:var(--royal-700);white-space:nowrap}
+
+/* ============ 07 · CHART ============ */
+.ch-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px}
+.s-chart .h2{font-size:38px;margin-top:12px}
+.seg{position:relative;display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#fff}
+.seg .thumb{position:absolute;top:0;bottom:0;left:0;width:50%;background:var(--gold);transition:left .32s cubic-bezier(.3,.8,.3,1)}
+.seg[data-active="fy25"] .thumb{left:50%}
+.seg button{position:relative;z-index:1;width:106px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;padding:12px 0;background:none;border:0;color:var(--muted);cursor:pointer;transition:color .25s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{color:var(--navy-900)}
+.ch-wrap{display:flex}
+.ch-plot{position:relative;flex:1;height:356px}
+.gl{position:absolute;left:0;right:0;bottom:var(--p);height:1px;background:var(--line)}
+.gl span{position:absolute;left:-10px;top:-6px;transform:translateX(-100%);font-family:var(--mono);font-size:9.5px;color:var(--faint)}
+.cols{position:absolute;left:56px;right:8px;top:0;bottom:32px;display:grid;grid-template-columns:repeat(6,1fr);gap:14px;border-bottom:2px solid rgba(24,54,166,.35)}
+.col{position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;cursor:pointer}
+.bar{width:58px;height:var(--v);background:var(--royal-700);border-radius:3px 3px 0 0;transition:height .55s cubic-bezier(.25,.8,.3,1),background .2s}
+.slide.active .bar{animation:grow .9s cubic-bezier(.22,.8,.28,1) backwards;animation-delay:var(--bd,0ms)}
+@keyframes grow{from{height:0}}
+.col:hover .bar{background:var(--gold)}
+.bar-val{font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:9px;transition:color .2s}
+.col:hover .bar-val{color:var(--royal-700)}
+.x-lbl{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:10px;font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.08em;color:var(--faint);white-space:nowrap;transition:color .2s}
+.col:hover .x-lbl{color:var(--royal-700)}
+.tip{position:absolute;bottom:calc(100% - 6px);left:50%;transform:translateX(-50%) translateY(6px);opacity:0;transition:.25s;pointer-events:none;background:var(--navy-900);color:rgba(214,224,255,.78);padding:9px 12px;border-left:3px solid var(--gold);font-family:var(--mono);font-size:9.5px;line-height:1.65;letter-spacing:.06em;white-space:nowrap;border-radius:3px;box-shadow:0 10px 24px rgba(4,10,30,.3);z-index:5}
+.tip b{display:block;color:#fff;font-weight:600;letter-spacing:.1em}
+.tip i{display:block;font-style:normal;color:var(--gold)}
+.col:hover .tip{opacity:1;transform:translateX(-50%) translateY(0)}
+.ch-side{width:252px;flex:none;margin-left:40px;padding-left:38px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:26px}
+.cs .lbl{display:block;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.18em;color:var(--muted)}
+.cs strong{display:block;margin-top:8;font-size:26px;font-weight:800;letter-spacing:-.01em;color:var(--royal-700)}
+.cs .chip{margin-top:10px}
+.cs-note{margin-top:auto;font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.1em;line-height:1.7;color:var(--faint)}
+
+/* ============ 08 · TIMELINE ============ */
+.tl{position:relative;margin-top:62px;height:300px;display:grid;grid-template-columns:repeat(4,1fr)}
+.tl-line{position:absolute;left:0;right:34px;top:50%;height:1px;background:rgba(255,255,255,.22)}
+.tl-prog{position:absolute;left:0;width:38%;top:calc(50% - 1px);height:2px;background:var(--gold)}
+.tl-end{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--gold);opacity:.85}
+.tl-item{position:relative}
+.node{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.4);z-index:2}
+.node.done{width:12px;height:12px;background:var(--gold);border-color:var(--gold)}
+.node.now{width:16px;height:16px;border:3px solid var(--gold);background:var(--navy-900)}
+.node.now::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(255,197,49,.55);animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{transform:scale(.55);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.tl-item::after{content:"";position:absolute;left:50%;width:1px;background:rgba(255,255,255,.28)}
+.tl-item.up::after{bottom:50%;height:26px}
+.tl-item.down::after{top:50%;height:26px}
+.tl-card{position:absolute;left:50%;transform:translateX(-50%);width:250px;text-align:center}
+.tl-item.up .tl-card{bottom:calc(50% + 38px)}
+.tl-item.down .tl-card{top:calc(50% + 38px)}
+.tl-card .q{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.2em;color:var(--dtext)}
+.tl-card .q.gold{color:var(--gold)}
+.tl-card h3{margin:9px 0 7px;font-size:21px;font-weight:700;font-stretch:114%;font-variation-settings:"wdth" 114;color:#fff}
+.tl-card p{font-size:12.5px;line-height:1.55;color:var(--dtext)}
+.now-tag{position:absolute;left:50%;top:calc(50% - 54px);transform:translateX(-50%);background:var(--gold);color:var(--navy-900);font-family:var(--mono);font-size:8.5px;font-weight:600;letter-spacing:.18em;padding:5px 9px;white-space:nowrap;z-index:2}
+.rd-note{position:absolute;bottom:0;left:0;display:flex;align-items:center;gap:10px;font-size:9.5px;letter-spacing:.14em;color:rgba(200,212,255,.42)}
+.rd-note::before{content:"";width:7px;height:7px;background:var(--gold)}
+
+/* ============ 09 · TEAM ============ */
+.tm-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.tm-count{font-size:10px;font-weight:500;letter-spacing:.18em;color:var(--muted);padding-bottom:9px}
+.member{display:grid;grid-template-columns:70px 240px 1fr auto 44px;gap:26px;align-items:center;padding:15px 10px 15px 14px;border-top:1px solid var(--line);transition:background .25s,box-shadow .25s}
+.member:last-child{border-bottom:1px solid var(--line)}
+.member:hover{background:#F1F3FB;box-shadow:inset 3px 0 0 var(--gold)}
+.member .ph{position:relative;width:70px;height:70px;overflow:hidden}
+.member img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter .4s}
+.member .ph::after{content:"";position:absolute;inset:0;background:var(--royal-700);mix-blend-mode:multiply;opacity:.6;transition:opacity .4s}
+.member:hover img{filter:none}
+.member:hover .ph::after{opacity:0}
+.m-name h3{font-size:18px;font-weight:700;font-stretch:112%;font-variation-settings:"wdth" 112}
+.m-name .role{display:flex;align-items:center;gap:8px;margin-top:6px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.16em;color:var(--royal-700)}
+.m-name .role::before{content:"";width:6px;height:6px;background:var(--gold)}
+.m-bio{font-size:13px;line-height:1.55;color:var(--muted)}
+.m-tag{font-family:var(--mono);font-size:8.5px;font-weight:500;letter-spacing:.16em;color:var(--muted);border:1px solid var(--line);padding:5px 9px;white-space:nowrap}
+.m-n{font-family:var(--mono);font-size:22px;font-weight:600;color:#C7CDE3;text-align:right;transition:color .25s}
+.member:hover .m-n{color:var(--royal-700)}
+
+/* ============ 10 · PROCESS ============ */
+.pr-head{display:flex;align-items:flex-end;justify-content:space-between}
+.pr-tag{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.18em;color:var(--muted);padding-bottom:9px}
+.step{margin-left:calc(var(--ind)*118px);display:grid;grid-template-columns:118px 1fr auto;gap:26px;align-items:center;padding:17px 14px 17px 0;border-top:1px solid var(--line);transition:background .25s,box-shadow .25s}
+.step:last-of-type{border-bottom:1px solid var(--line)}
+.step:hover{background:#F1F3FB;box-shadow:inset 3px 0 0 var(--gold)}
+.s-n{font-family:var(--mono);font-size:58px;font-weight:700;line-height:1;color:transparent;-webkit-text-stroke:2px var(--royal-700);transition:color .25s}
+.step:hover .s-n{color:var(--royal-700)}
+.s-t h3{font-size:20px;font-weight:800;font-stretch:116%;font-variation-settings:"wdth" 116;letter-spacing:.01em}
+.s-t p{margin-top:5px;font-size:13px;color:var(--muted)}
+.s-kw{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.24em;color:var(--faint)}
+.pr-note{position:absolute;bottom:0;left:0;display:flex;align-items:center;gap:10px;font-size:9.5px;letter-spacing:.14em;color:var(--faint)}
+.pr-note::before{content:"";width:7px;height:7px;background:var(--gold)}
+
+/* ============ 11 · QUOTE ============ */
+.q-main{position:absolute;left:64px;top:168px;width:1000px;z-index:2}
+.q-mark{font-size:200px;font-weight:800;color:var(--gold);line-height:.6;height:108px;margin-left:-8px}
+.s-quote blockquote{margin-top:-30px;font-size:40px;font-weight:600;font-stretch:112%;font-variation-settings:"wdth" 112;line-height:1.34;color:#fff}
+.s-quote blockquote em{font-style:italic;color:var(--gold)}
+.q-att{margin-top:46px;display:flex;align-items:center;gap:20px}
+.q-att .ph{position:relative;width:54px;height:54px;overflow:hidden}
+.q-att img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.q-att .ph::after{content:"";position:absolute;inset:0;background:var(--royal-700);mix-blend-mode:multiply;opacity:.55}
+.q-who strong{display:block;font-size:17px;font-weight:700;color:#fff}
+.q-who .mono{display:block;margin-top:6px;font-size:9.5px;font-weight:500;letter-spacing:.18em;color:var(--dtext)}
+
+/* ============ 12 · THANK YOU ============ */
+.ty-text{font-family:var(--mono);font-size:12.5px;letter-spacing:7px;fill:rgba(255,255,255,.42)}
+.ty-orbit{transform-box:view-box;transform-origin:1000px 340px;animation:orbit 80s linear infinite}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.s-thanks svg{color:#fff}
+.ty-main{position:absolute;left:64px;top:192px;width:720px;z-index:2}
+.ty-main h1{margin-top:26px;font-size:118px;font-weight:800;font-stretch:125%;font-variation-settings:"wdth" 125;line-height:.95;letter-spacing:-.015em;color:#fff}
+.ty-main .dot{color:var(--gold)}
+.ty-sub{margin-top:24px;font-size:17px;color:var(--dtext)}
+.ty-actions{margin-top:42px;display:flex;gap:14px}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;padding:14px 20px;border-radius:4px;cursor:pointer;transition:.25s}
+.btn svg{width:15px;height:15px}
+.btn.gold{background:var(--gold);color:var(--navy-900);border:1px solid var(--gold)}
+.btn.gold:hover{background:var(--gold-soft);transform:translateY(-2px);box-shadow:0 10px 24px rgba(255,197,49,.25)}
+.btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.ty-contact{position:absolute;left:64px;right:64px;bottom:112px;display:flex;z-index:2;border-top:1px solid var(--dline);padding-top:24px}
+.tc{flex:1;display:flex;flex-direction:column;gap:9px;padding-right:30px}
+.tc + .tc{border-left:1px solid var(--dline);padding-left:36px}
+.tc>span:first-child{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.22em;color:var(--gold)}
+.tc button{background:none;border:0;padding:0;font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.06em;color:#fff;cursor:pointer;text-align:left;transition:color .2s;width:max-content}
+.tc button:hover{color:var(--gold);text-decoration:underline;text-underline-offset:4px}
+.tc strong{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.06em;color:#fff}
+.ty-foot{position:absolute;left:64px;right:64px;bottom:38px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.18em;color:rgba(200,212,255,.38);z-index:2}
+
+/* ============ PLAYER CHROME ============ */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:80;transition:width .45s cubic-bezier(.3,.8,.3,1)}
+#hud{position:fixed;inset:0;pointer-events:none;z-index:70}
+.pill{position:absolute;display:flex;align-items:center;background:rgba(6,14,42,.88);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);border-radius:6px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+#counter{left:22px;bottom:22px;padding:10px 16px;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:rgba(255,255,255,.75);pointer-events:none}
+#counter .cur{color:var(--gold);font-weight:600}
+#counter .sep{color:rgba(255,255,255,.3)}
+#ctrl{right:22px;bottom:22px;padding:5px;gap:2px;pointer-events:auto}
+#ctrl button{width:36px;height:36px;display:grid;place-items:center;background:none;border:0;border-radius:4px;color:rgba(255,255,255,.85);cursor:pointer;transition:.2s}
+#ctrl button:hover{background:var(--gold);color:var(--navy-900)}
+#ctrl button:disabled{opacity:.28;cursor:default;background:none;color:rgba(255,255,255,.85)}
+#ctrl button:focus-visible{outline:2px solid var(--gold)}
+#ctrl .vsep{width:1px;height:18px;background:rgba(255,255,255,.14);margin:0 5px}
+#ctrl svg{width:17px;height:17px}
+
+#hint{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;gap:18px;padding:10px 18px;background:rgba(6,14,42,.85);border:1px solid rgba(255,255,255,.1);border-radius:6px;backdrop-filter:blur(10px);z-index:65;transition:opacity .8s,transform .8s;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:rgba(255,255,255,.6)}
+#hint kbd{color:var(--gold);font-family:inherit;margin-right:6px}
+#hint.hide{opacity:0;transform:translateX(-50%) translateY(8px);pointer-events:none}
+
+/* ============ OVERVIEW ============ */
+#overview{position:fixed;inset:0;z-index:60;background:rgba(3,8,24,.94);backdrop-filter:blur(14px);display:flex;flex-direction:column;padding:56px 56px 40px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+#overview.open{opacity:1;visibility:visible}
+.ov-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex:none}
+.ov-head .l{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;color:#fff}
+.ov-head .l svg{width:20px;height:20px;color:#fff}
+.ov-head .r{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:rgba(255,255,255,.45)}
+.ov-grid{flex:1;display:grid;grid-template-columns:repeat(4,var(--tw));gap:30px 26px;justify-content:center;align-content:start;overflow-y:auto;padding:4px}
+.ov-item{width:var(--tw);cursor:pointer;outline:none}
+.ov-box{position:relative;aspect-ratio:16/9;overflow:hidden;border:1px solid rgba(255,255,255,.16);background:#000;transition:border-color .2s,transform .2s}
+.ov-item:hover .ov-box{border-color:rgba(255,197,49,.7);transform:translateY(-3px)}
+.ov-item.cur .ov-box{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.ov-item:focus-visible .ov-box{border-color:var(--gold)}
+.ov-canvas{position:absolute;top:0;left:0;width:1280px;height:720px;transform-origin:0 0;pointer-events:none}
+.ov-lab{display:flex;align-items:center;gap:9px;margin-top:10px;font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.16em;color:rgba(255,255,255,.5)}
+.ov-item.cur .ov-lab{color:var(--gold)}
+.ov-lab::before{content:"";width:5px;height:5px;background:currentColor;opacity:.7}
+
+/* ============ TOAST ============ */
+#toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--navy-850);color:#fff;border-left:3px solid var(--gold);padding:13px 20px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;border-radius:4px;box-shadow:0 16px 40px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.35s;z-index:90}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ============ MISC ============ */
+.static,.static *{animation:none!important;transition:none!important}
+@media (max-width:900px){#hint{display:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ ICON & BRAND SYMBOLS ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="mk" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M4.2 20 9.8 4h3.3L7.5 20Z"/>
+    <path fill="#FFC531" d="M11.6 20 17.2 4h3.3L14.9 20Z"/>
+  </symbol>
+  <symbol id="i-chevL" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chevR" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 2v6h6M21 12A9 9 0 0 0 6 5.3L3 8M21 22v-6h-6M3 12a9 9 0 0 0 15 6.7l3-2.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tri" viewBox="0 0 12 12"><path d="M6 1.5 11 10H1Z" fill="currentColor"/></symbol>
+</defs></svg>
+
+<div id="viewport">
+<div id="stage">
+
+<!-- ============ SLIDE 01 · TITLE ============ -->
+<section class="slide dark s-title" data-label="TITLE">
+  <svg class="mer" viewBox="0 0 1280 720" aria-hidden="true">
+    <circle class="arc" style="--ad:150ms" cx="1560" cy="360" r="680" pathLength="100" opacity=".13"/>
+    <circle class="arc" style="--ad:280ms" cx="1560" cy="360" r="580" pathLength="100" opacity=".2"/>
+    <circle class="arc" style="--ad:410ms" cx="1560" cy="360" r="480" pathLength="100" opacity=".3"/>
+    <circle class="arc" style="--ad:540ms" cx="1560" cy="360" r="380" pathLength="100" opacity=".42"/>
+    <circle class="arc arc-hl" style="--ad:820ms" cx="1560" cy="360" r="530" pathLength="100"/>
+    <circle class="adot" cx="1053" cy="205" r="6"/>
+    <circle class="aping" cx="1053" cy="205" r="6"/>
+  </svg>
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">BOARD OF DIRECTORS · ZÜRICH</span>
+  </header>
+  <div class="t-main">
+    <div class="kick rv">ANNUAL STRATEGY REVIEW · FY 2025</div>
+    <h1 class="rv">
+      <span>NAVIGATING</span>
+      <span>THE NEXT <em>DECADE</em></span>
+      <span>OF GROWTH<i class="gdot">.</i></span>
+    </h1>
+    <p class="t-sub rv">A three-year plan to concentrate capital, deepen enterprise relationships, and compound the advantages we have spent a decade building.</p>
+  </div>
+  <footer class="t-foot rv">
+    <div class="pres"><strong>Alexandra Reyes</strong><span class="mono">CHIEF EXECUTIVE OFFICER</span></div>
+    <span class="t-date mono">14 FEBRUARY 2025</span>
+    <span class="t-tag mono">CONFIDENTIAL</span>
+  </footer>
+</section>
+
+<!-- ============ SLIDE 02 · AGENDA ============ -->
+<section class="slide s-agenda" data-label="AGENDA">
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">01 · AGENDA</span>
+  </header>
+  <div class="body ag">
+    <div>
+      <div class="kick rv">01 · AGENDA</div>
+      <h2 class="h2 rv">What we'll cover today</h2>
+      <p class="ag-p rv">Six chapters, forty minutes, one decision at the end: how we allocate FY25 capital.</p>
+      <div class="ag-meta rv">
+        <span><i></i>RUNTIME — 40 MINUTES</span>
+        <span><i></i>DECISION — FY25 CAPITAL PLAN</span>
+      </div>
+    </div>
+    <ol class="ag-list">
+      <li class="rv"><span class="n mono">01</span><div class="t"><h3>Market Landscape</h3><p>Where value is shifting across our core segments</p></div><span class="pg mono">P.03</span></li>
+      <li class="rv"><span class="n mono">02</span><div class="t"><h3>Strategic Priorities</h3><p>Three bets that define our next chapter</p></div><span class="pg mono">P.04</span></li>
+      <li class="rv"><span class="n mono">03</span><div class="t"><h3>Financial Performance</h3><p>FY24 results and the road to FY25 targets</p></div><span class="pg mono">P.06</span></li>
+      <li class="rv"><span class="n mono">04</span><div class="t"><h3>Execution Roadmap</h3><p>Milestones, owners and timing through FY26</p></div><span class="pg mono">P.08</span></li>
+      <li class="rv"><span class="n mono">05</span><div class="t"><h3>Our Team</h3><p>The leadership behind the plan</p></div><span class="pg mono">P.09</span></li>
+      <li class="rv"><span class="n mono">06</span><div class="t"><h3>Discussion</h3><p>Questions, challenges and the capital decision</p></div><span class="pg mono">P.12</span></li>
+    </ol>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>02 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 03 · SECTION DIVIDER ============ -->
+<section class="slide dark s-div" data-label="SECTION DIVIDER">
+  <svg class="mer" viewBox="0 0 1280 720" aria-hidden="true">
+    <circle class="arc" style="--ad:120ms" cx="-300" cy="700" r="720" pathLength="100" opacity=".1"/>
+    <circle class="arc" style="--ad:240ms" cx="-300" cy="700" r="620" pathLength="100" opacity=".16"/>
+    <circle class="arc" style="--ad:360ms" cx="-300" cy="700" r="520" pathLength="100" opacity=".24"/>
+    <circle class="arc" style="--ad:480ms" cx="-300" cy="700" r="420" pathLength="100" opacity=".34"/>
+  </svg>
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">SECTION 02 OF 05</span>
+  </header>
+  <div class="d-main">
+    <div class="d-num rv">02</div>
+    <span class="d-rule rv rv-w"></span>
+    <div class="d-info">
+      <div class="ticks rv"><i></i><i class="on"></i><i></i><i></i><i></i></div>
+      <h2 class="rv">Strategic Priorities</h2>
+      <p class="rv">Three bets that define our next chapter — and what we stop doing to fund them.</p>
+      <span class="d-crumb mono rv">SECTION 02 OF 05 — STRATEGY THROUGH OPERATIONS</span>
+    </div>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>03 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 04 · IMAGE + TEXT ============ -->
+<section class="slide s-split" data-label="IMAGE + TEXT">
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">02 · STRATEGIC PRIORITIES</span>
+  </header>
+  <div class="body sp">
+    <div>
+      <div class="kick rv">PRIORITY ONE</div>
+      <h2 class="h2 rv">Bet bigger where we already win</h2>
+      <p class="lead rv">Our three highest-margin segments generate 61% of revenue at twice the group margin. In FY25 we move from participating everywhere to dominating where it counts.</p>
+      <ul class="pts">
+        <li class="rv"><i></i><p><strong>Concentrate capital.</strong> 70% of growth funding into segments where we hold #1 or #2 share.</p></li>
+        <li class="rv"><i></i><p><strong>Defend the core.</strong> Lift enterprise retention from 68% to 85% by FY26.</p></li>
+        <li class="rv"><i></i><p><strong>Exit the tail.</strong> Divest non-core legacy lines, releasing $140M of working capital.</p></li>
+      </ul>
+      <div class="share rv">
+        <span class="mono">SEGMENTS AT #1–2 SHARE</span>
+        <div class="sq"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        <span class="mono v">3 OF 7</span>
+      </div>
+    </div>
+    <figure class="sp-img rv rv-l">
+      <div class="ph">
+        <img src="https://picsum.photos/seed/meridian-hq7/820/1010.jpg" alt="Meridian global headquarters">
+        <i class="ck tl"></i><i class="ck br"></i>
+      </div>
+      <figcaption class="mono">GLOBAL HEADQUARTERS — ZÜRICH, CH</figcaption>
+    </figure>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>04 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 05 · BIG STATEMENT ============ -->
+<section class="slide dark s-statement" data-label="STATEMENT">
+  <svg class="mer" viewBox="0 0 1280 720" aria-hidden="true">
+    <circle class="arc" style="--ad:200ms" cx="1400" cy="880" r="520" pathLength="100" opacity=".22"/>
+    <circle class="arc" style="--ad:340ms" cx="1400" cy="880" r="640" pathLength="100" opacity=".15"/>
+    <circle class="arc" style="--ad:480ms" cx="1400" cy="880" r="760" pathLength="100" opacity=".09"/>
+  </svg>
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">02 · GUIDING PRINCIPLE</span>
+  </header>
+  <span class="v-tag mono rv">OPERATING THESIS — PRINCIPLE 01</span>
+  <div class="st-main">
+    <div class="st-q rv" aria-hidden="true">“</div>
+    <blockquote class="rv">We don't chase every market. We make the markets we <em>choose</em> impossible to ignore.</blockquote>
+    <div class="st-rule rv rv-w"></div>
+    <div class="st-att mono rv">THE FY25 OPERATING THESIS — ENDORSED BY THE BOARD, JANUARY 2025</div>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>05 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 06 · KEY NUMBERS ============ -->
+<section class="slide s-stats" data-label="KEY NUMBERS">
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">03 · FINANCIAL PERFORMANCE</span>
+  </header>
+  <div class="body sta">
+    <div class="sta-l">
+      <div class="kick rv">FY24 REVENUE · TOTAL GROUP</div>
+      <span class="hero-num xn rv" data-count="482" data-pre="$" data-suf="M">$482M</span>
+      <div class="hero-bar rv rv-w"></div>
+      <div class="chip rv"><svg class="tri"><use href="#i-tri"/></svg>+18.2% YEAR OVER YEAR</div>
+      <p class="hero-note rv">The strongest year in company history, led by enterprise platform sales and record net retention.</p>
+    </div>
+    <div class="sta-r">
+      <div class="st-row rv">
+        <div><h4>Enterprise retention</h4><p>Target 85% by FY26 · +9 pts vs FY22</p></div>
+        <span class="v xn" data-count="68" data-suf="%">68%</span>
+      </div>
+      <div class="st-row rv">
+        <div><h4>Adjusted EBITDA</h4><p>Margin 19.9% · up 4.1 pts on FY23</p></div>
+        <span class="v xn" data-count="96" data-pre="$" data-suf="M">$96M</span>
+      </div>
+      <div class="st-row rv">
+        <div><h4>Revenue from new products</h4><p>Everything launched since 2022</p></div>
+        <span class="v xn" data-count="41" data-suf="%">41%</span>
+      </div>
+    </div>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>AUDITED — KPMG LLC · FX AS OF DEC 31, 2024</span></footer>
+</section>
+
+<!-- ============ SLIDE 07 · CHART ============ -->
+<section class="slide s-chart" data-label="DATA / CHART">
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">03 · FINANCIAL PERFORMANCE</span>
+  </header>
+  <div class="body ch">
+    <div class="ch-head">
+      <div>
+        <div class="kick rv">REVENUE BY REGION</div>
+        <h2 class="h2 rv">Where the $482M came from</h2>
+      </div>
+      <div class="seg rv" data-active="fy24">
+        <span class="thumb"></span>
+        <button type="button" class="on" data-set="fy24">FY2024</button>
+        <button type="button" data-set="fy25">FY2025E</button>
+      </div>
+    </div>
+    <div class="ch-wrap">
+      <div class="ch-plot rv">
+        <div class="gl" style="--p:0%"><span>$0M</span></div>
+        <div class="gl" style="--p:25%"><span>$60M</span></div>
+        <div class="gl" style="--p:50%"><span>$120M</span></div>
+        <div class="gl" style="--p:75%"><span>$180M</span></div>
+        <div class="gl" style="--p:100%"><span>$240M</span></div>
+        <div class="cols">
+          <div class="col" style="--v:75.8%;--bd:120ms">
+            <div class="tip"><b>NORTH AMERICA</b>FY24 $182M → FY25E $214M<i>+17.6% YoY</i></div>
+            <span class="bar-val">$182M</span><div class="bar"></div><span class="x-lbl">N. AMERICA</span>
+          </div>
+          <div class="col" style="--v:52.5%;--bd:190ms">
+            <div class="tip"><b>EUROPE</b>FY24 $126M → FY25E $148M<i>+17.5% YoY</i></div>
+            <span class="bar-val">$126M</span><div class="bar"></div><span class="x-lbl">EUROPE</span>
+          </div>
+          <div class="col" style="--v:35%;--bd:260ms">
+            <div class="tip"><b>ASIA-PACIFIC</b>FY24 $84M → FY25E $112M<i>+33.3% YoY</i></div>
+            <span class="bar-val">$84M</span><div class="bar"></div><span class="x-lbl">APAC</span>
+          </div>
+          <div class="col" style="--v:17.5%;--bd:330ms">
+            <div class="tip"><b>LATIN AMERICA</b>FY24 $42M → FY25E $51M<i>+21.4% YoY</i></div>
+            <span class="bar-val">$42M</span><div class="bar"></div><span class="x-lbl">LATAM</span>
+          </div>
+          <div class="col" style="--v:11.7%;--bd:400ms">
+            <div class="tip"><b>MIDDLE EAST</b>FY24 $28M → FY25E $38M<i>+35.7% YoY</i></div>
+            <span class="bar-val">$28M</span><div class="bar"></div><span class="x-lbl">MIDDLE EAST</span>
+          </div>
+          <div class="col" style="--v:8.3%;--bd:470ms">
+            <div class="tip"><b>AFRICA</b>FY24 $20M → FY25E $29M<i>+45.0% YoY</i></div>
+            <span class="bar-val">$20M</span><div class="bar"></div><span class="x-lbl">AFRICA</span>
+          </div>
+        </div>
+      </div>
+      <aside class="ch-side">
+        <div class="cs rv"><span class="lbl">TOTAL REVENUE</span><strong class="xn cs-total" data-count="482" data-pre="$" data-suf="M">$482M</strong></div>
+        <div class="cs rv"><span class="lbl">LARGEST REGION</span><strong class="xm">N. America · <span class="cs-share">38%</span></strong></div>
+        <div class="cs rv"><span class="lbl">PROJECTED GROWTH</span>
+          <div class="chip"><svg class="tri"><use href="#i-tri"/></svg><span class="cs-growth">+18.2%</span>&nbsp;<span class="cs-glab">FY24 ACTUAL</span></div>
+        </div>
+        <p class="cs-note rv">FIGURES IN USD MILLIONS. FY25E = BOARD-APPROVED PLAN OF RECORD. HOVER BARS FOR REGION DETAIL.</p>
+      </aside>
+    </div>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>07 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 08 · TIMELINE ============ -->
+<section class="slide dark s-road" data-label="TIMELINE">
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">04 · EXECUTION ROADMAP</span>
+  </header>
+  <div class="body">
+    <div class="kick rv">04 · EXECUTION ROADMAP</div>
+    <h2 class="h2 rv">The road to FY26</h2>
+    <div class="tl">
+      <div class="tl-line rv rv-w"></div>
+      <div class="tl-prog rv rv-w" style="--d:420ms"></div>
+      <svg class="tl-end"><use href="#i-chevR"/></svg>
+      <div class="tl-item up rv">
+        <span class="node done"></span>
+        <div class="tl-card"><span class="q">Q1 2025 · COMPLETE</span><h3>Foundation</h3><p>Legacy line exit closed; regional P&amp;L restructured around segments.</p></div>
+      </div>
+      <div class="tl-item down rv">
+        <span class="node now"></span>
+        <span class="now-tag">WE ARE HERE</span>
+        <div class="tl-card"><span class="q gold">Q2 2025 · IN PROGRESS</span><h3>Acceleration</h3><p>Enterprise retention program live in every region.</p></div>
+      </div>
+      <div class="tl-item up rv">
+        <span class="node"></span>
+        <div class="tl-card"><span class="q">Q3 2025</span><h3>Scale</h3><p>APAC expansion — Tokyo and Singapore offices open.</p></div>
+      </div>
+      <div class="tl-item down rv">
+        <span class="node"></span>
+        <div class="tl-card"><span class="q">Q4 2025</span><h3>Compound</h3><p>First $150M quarter; FY26 plan to the Board.</p></div>
+      </div>
+    </div>
+    <p class="rd-note mono rv">WEEKLY SCORECARDS AND MILESTONE OWNERS — SEE APPENDIX A</p>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>08 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 09 · TEAM ============ -->
+<section class="slide s-team" data-label="TEAM ROSTER">
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">05 · OUR TEAM</span>
+  </header>
+  <div class="body">
+    <div class="tm-head">
+      <div>
+        <div class="kick rv">05 · OUR TEAM</div>
+        <h2 class="h2 rv">Leadership driving the plan</h2>
+      </div>
+      <span class="tm-count mono rv">4 OF 12 EXECUTIVE COMMITTEE MEMBERS</span>
+    </div>
+    <div class="members">
+      <article class="member rv">
+        <div class="ph"><img src="https://picsum.photos/seed/meridian-p1/160/160.jpg" alt="Alexandra Reyes"></div>
+        <div class="m-name"><h3>Alexandra Reyes</h3><span class="role mono">CHIEF EXECUTIVE OFFICER</span></div>
+        <p class="m-bio">Twenty years building enterprise platforms — led Meridian from $40M to $482M in revenue.</p>
+        <span class="m-tag mono">EXCO</span>
+        <span class="m-n mono">01</span>
+      </article>
+      <article class="member rv">
+        <div class="ph"><img src="https://picsum.photos/seed/meridian-p2/160/160.jpg" alt="Daniel Okafor"></div>
+        <div class="m-name"><h3>Daniel Okafor</h3><span class="role mono">CHIEF FINANCIAL OFFICER</span></div>
+        <p class="m-bio">Architect of our capital discipline; previously infrastructure finance across EMEA.</p>
+        <span class="m-tag mono">EXCO</span>
+        <span class="m-n mono">02</span>
+      </article>
+      <article class="member rv">
+        <div class="ph"><img src="https://picsum.photos/seed/meridian-p3/160/160.jpg" alt="Priya Natarajan"></div>
+        <div class="m-name"><h3>Priya Natarajan</h3><span class="role mono">CHIEF OPERATING OFFICER</span></div>
+        <p class="m-bio">Runs the global delivery engine — 14 markets, 2,300 people, one operating standard.</p>
+        <span class="m-tag mono">EXCO</span>
+        <span class="m-n mono">03</span>
+      </article>
+      <article class="member rv">
+        <div class="ph"><img src="https://picsum.photos/seed/meridian-p4/160/160.jpg" alt="Marcus Weber"></div>
+        <div class="m-name"><h3>Marcus Weber</h3><span class="role mono">CHIEF STRATEGY OFFICER</span></div>
+        <p class="m-bio">Leads M&amp;A and the ventures portfolio; nine acquisitions integrated since 2019.</p>
+        <span class="m-tag mono">EXCO</span>
+        <span class="m-n mono">04</span>
+      </article>
+    </div>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>09 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 10 · PROCESS ============ -->
+<section class="slide s-proc" data-label="PROCESS">
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">02 · OPERATING MODEL</span>
+  </header>
+  <div class="body">
+    <div class="pr-head">
+      <div>
+        <div class="kick rv">OPERATING MODEL</div>
+        <h2 class="h2 rv">How the operating model changes</h2>
+      </div>
+      <span class="pr-tag mono rv">MODEL v2 · APPROVED JAN 2025</span>
+    </div>
+    <div class="steps">
+      <div class="step rv" style="--ind:0">
+        <span class="s-n">01</span>
+        <div class="s-t"><h3>Focus</h3><p>Concentrate capital and talent on three core segments.</p></div>
+        <span class="s-kw mono">CAPITAL</span>
+      </div>
+      <div class="step rv" style="--ind:1">
+        <span class="s-n">02</span>
+        <div class="s-t"><h3>Align</h3><p>A single regional P&amp;L with end-to-end accountability.</p></div>
+        <span class="s-kw mono">OWNERSHIP</span>
+      </div>
+      <div class="step rv" style="--ind:2">
+        <span class="s-n">03</span>
+        <div class="s-t"><h3>Accelerate</h3><p>90-day delivery cycles with publicly shared scorecards.</p></div>
+        <span class="s-kw mono">CADENCE</span>
+      </div>
+      <div class="step rv" style="--ind:3">
+        <span class="s-n">04</span>
+        <div class="s-t"><h3>Compound</h3><p>Reinvest expanded margin into product and retention.</p></div>
+        <span class="s-kw mono">REINVEST</span>
+      </div>
+    </div>
+    <p class="pr-note mono rv">ROLLOUT — REGION BY REGION THROUGH Q3 2025 · EXECUTION OWNER — CHIEF OPERATING OFFICER</p>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>10 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 11 · QUOTE ============ -->
+<section class="slide dark s-quote" data-label="QUOTE">
+  <svg class="mer" viewBox="0 0 1280 720" aria-hidden="true">
+    <circle class="arc" style="--ad:200ms" cx="-240" cy="-180" r="440" pathLength="100" opacity=".2"/>
+    <circle class="arc" style="--ad:340ms" cx="-240" cy="-180" r="560" pathLength="100" opacity=".13"/>
+    <circle class="arc" style="--ad:480ms" cx="-240" cy="-180" r="680" pathLength="100" opacity=".08"/>
+  </svg>
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">CLIENT VOICE · NORDVOLT ENERGY</span>
+  </header>
+  <span class="v-tag mono rv">CLIENT SINCE 2021 — ENTERPRISE PLATFORM</span>
+  <div class="q-main">
+    <div class="q-mark rv" aria-hidden="true">“</div>
+    <blockquote class="rv">Meridian didn't just deliver a platform — they rewired how our organisation makes decisions. Three years in, <em>they're still our first call.</em></blockquote>
+    <div class="q-att rv">
+      <div class="ph"><img src="https://picsum.photos/seed/meridian-client3/120/120.jpg" alt="Ingrid Halvorsen"></div>
+      <div class="q-who"><strong>Ingrid Halvorsen</strong><span class="mono">CHIEF DIGITAL OFFICER · NORDVOLT ENERGY</span></div>
+    </div>
+  </div>
+  <footer class="pg-foot rv"><span>MERIDIAN GROUP — FY25 STRATEGIC REVIEW</span><span>11 / 12</span></footer>
+</section>
+
+<!-- ============ SLIDE 12 · THANK YOU ============ -->
+<section class="slide dark s-thanks" data-label="THANK YOU">
+  <svg class="ty" viewBox="0 0 1280 720" aria-hidden="true">
+    <path id="tyPath" class="arc" style="--ad:250ms" d="M 1000 135 A 205 205 0 1 1 999.99 135.01" pathLength="100"/>
+    <circle cx="1000" cy="340" r="150" fill="none" stroke="rgba(255,197,49,.18)" stroke-width="1"/>
+    <g class="ty-orbit">
+      <text class="ty-text"><textPath href="#tyPath">MERIDIAN GROUP · FY25 STRATEGIC REVIEW · ZÜRICH · MERIDIAN GROUP · FY25 STRATEGIC REVIEW · ZÜRICH · </textPath></text>
+    </g>
+    <circle cx="1000" cy="135" r="5" fill="#FFC531"/>
+    <use href="#mk" x="966" y="306" width="68" height="68"/>
+  </svg>
+  <header class="pg-head rv">
+    <div class="brand"><svg class="mark"><use href="#mk"/></svg><span>MERIDIAN</span></div>
+    <span class="crumb">FY25 STRATEGIC REVIEW</span>
+  </header>
+  <div class="ty-main">
+    <div class="kick rv">QUESTIONS &amp; DISCUSSION</div>
+    <h1 class="rv">Thank you<span class="dot">.</span></h1>
+    <p class="ty-sub rv">The floor is yours — challenges welcome.</p>
+    <div class="ty-actions rv">
+      <button class="btn gold" type="button" data-copy-mail><svg><use href="#i-copy"/></svg>COPY EMAIL</button>
+      <button class="btn ghost" type="button" data-restart><svg><use href="#i-refresh"/></svg>RESTART DECK</button>
+    </div>
+  </div>
+  <div class="ty-contact rv">
+    <div class="tc"><span>EMAIL</span><button type="button" data-copy-mail>ALEXANDRA.REYES@MERIDIAN-GROUP.COM</button></div>
+    <div class="tc"><span>PHONE</span><strong>+41 44 555 01 20</strong></div>
+    <div class="tc"><span>WEB</span><strong>MERIDIAN-GROUP.COM</strong></div>
+  </div>
+  <footer class="ty-foot mono rv"><span>© 2025 MERIDIAN GROUP</span><span>CONFIDENTIAL — DO NOT REDISTRIBUTE</span></footer>
+</section>
+
+</div>
+</div>
+
+<!-- ============ PLAYER UI ============ -->
+<div id="progress"></div>
+<div id="hud">
+  <div class="pill" id="counter"><span class="cur">01</span><span class="sep">/</span><span>12</span></div>
+  <div class="pill" id="ctrl">
+    <button id="prevB" type="button" aria-label="Previous slide" disabled><svg><use href="#i-chevL"/></svg></button>
+    <button id="nextB" type="button" aria-label="Next slide"><svg><use href="#i-chevR"/></svg></button>
+    <span class="vsep"></span>
+    <button id="ovB" type="button" aria-label="Slide overview" aria-expanded="false"><svg><use href="#i-grid"/></svg></button>
+    <button id="fsB" type="button" aria-label="Fullscreen"><svg><use href="#i-expand"/></svg></button>
+  </div>
+</div>
+<div id="hint">
+  <span><kbd>←</kbd><kbd>→</kbd> NAVIGATE</span>
+  <span><kbd>O</kbd> OVERVIEW</span>
+  <span><kbd>F</kbd> FULLSCREEN</span>
+</div>
+<div id="overview">
+  <div class="ov-head">
+    <div class="l"><svg><use href="#mk"/></svg>SLIDE OVERVIEW</div>
+    <div class="r">12 SLIDES · CLICK TO JUMP · ESC TO CLOSE</div>
+  </div>
+  <div class="ov-grid"></div>
+</div>
+<div id="toast" role="status"></div>
+
+<script>
+(function(){
+  'use strict';
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.filter.call(stage.children, function(el){ return el.classList.contains('slide'); });
+  var N = slides.length;
+  var progressEl = document.getElementById('progress');
+  var curEl = document.querySelector('#counter .cur');
+  var prevBtn = document.getElementById('prevB');
+  var nextBtn = document.getElementById('nextB');
+  var ovBtn = document.getElementById('ovB');
+  var fsBtn = document.getElementById('fsB');
+  var ov = document.getElementById('overview');
+  var ovGrid = ov.querySelector('.ov-grid');
+  var idx = -1;
+
+  /* ---- scale the 1280x720 canvas to the window ---- */
+  function fit(){
+    var s = Math.min(innerWidth/1280, innerHeight/720);
+    stage.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
+  }
+  addEventListener('resize', function(){ fit(); if(ov.classList.contains('open')) layoutOv(); });
+  fit();
+
+  /* ---- animated number counter ---- */
+  function countUp(el, from){
+    var target = parseFloat(el.dataset.count) || 0;
+    var dec = +(el.dataset.dec || 0), pre = el.dataset.pre || '', suf = el.dataset.suf || '';
+    if(el._raf) cancelAnimationFrame(el._raf);
+    var t0 = performance.now(), a = from || 0, dur = 1200;
+    (function step(t){
+      var p = Math.min(1, (t - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 3);
+      var v = a + (target - a) * e;
+      el._val = v;
+      el.textContent = pre + v.toFixed(dec) + suf;
+      if(p < 1) el._raf = requestAnimationFrame(step);
+    })(t0);
+  }
+
+  /* ---- navigation ---- */
+  function stagger(s){
+    var rvs = s.querySelectorAll('.rv');
+    for(var i=0;i<rvs.length;i++) rvs[i].style.setProperty('--d', Math.min(i*70, 620) + 'ms');
+  }
+  function onEnter(s){
+    var els = s.querySelectorAll('[data-count]');
+    for(var i=0;i<els.length;i++) countUp(els[i], 0);
+  }
+  function go(n){
+    n = Math.max(0, Math.min(N-1, n));
+    if(n === idx) return;
+    var old = idx > -1 ? slides[idx] : null;
+    var cur = slides[n];
+    if(old){
+      old.classList.remove('active');
+      old.classList.add('leaving');
+      setTimeout(function(){ old.classList.remove('leaving'); }, 480);
+    }
+    cur.classList.remove('leaving');
+    cur.classList.add('active');
+    stagger(cur);
+    onEnter(cur);
+    idx = n;
+    chrome();
+  }
+  function chrome(){
+    curEl.textContent = ('0' + (idx+1)).slice(-2);
+    progressEl.style.width = ((idx+1)/N*100) + '%';
+    prevBtn.disabled = (idx === 0);
+    nextBtn.disabled = (idx === N-1);
+    ovItems.forEach(function(it,i){ it.classList.toggle('cur', i === idx); });
+  }
+
+  /* ---- chart: FY24 / FY25E dataset toggle ---- */
+  var chS = slides.filter(function(s){ return s.classList.contains('s-chart'); })[0];
+  var CDATA = {
+    fy24: { vals:[182,126,84,42,28,20], total:482, share:'38%', growth:'+18.2%', glab:'FY24 ACTUAL' },
+    fy25: { vals:[214,148,112,51,38,29], total:592, share:'36%', growth:'+22.8%', glab:'FY25E PLAN' }
+  };
+  chS.querySelector('.seg').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-set]');
+    if(!b) return;
+    var d = CDATA[b.dataset.set];
+    var cols = chS.querySelectorAll('.col');
+    for(var i=0;i<cols.length;i++){
+      cols[i].style.setProperty('--v', (d.vals[i]/240*100).toFixed(1) + '%');
+      cols[i].querySelector('.bar-val').textContent = '$' + d.vals[i] + 'M';
+    }
+    var tot = chS.querySelector('.cs-total');
+    tot.dataset.count = d.total;
+    countUp(tot, tot._val || 0);
+    chS.querySelector('.cs-share').textContent = d.share;
+    chS.querySelector('.cs-growth').textContent = d.growth;
+    chS.querySelector('.cs-glab').textContent = d.glab;
+    var btns = chS.querySelectorAll('.seg button');
+    for(var j=0;j<btns.length;j++) btns[j].classList.toggle('on', btns[j] === b);
+    chS.querySelector('.seg').dataset.active = b.dataset.set;
+  });
+
+  /* ---- overview grid (cloned thumbnails) ---- */
+  var ovItems = slides.map(function(s, i){
+    var it = document.createElement('div');
+    it.className = 'ov-item'; it.tabIndex = 0;
+    it.setAttribute('role', 'button');
+    it.setAttribute('aria-label', 'Go to slide ' + (i+1));
+    var box = document.createElement('div'); box.className = 'ov-box';
+    var cv = document.createElement('div'); cv.className = 'ov-canvas';
+    var cn = s.cloneNode(true);
+    cn.classList.remove('active','leaving');
+    cn.classList.add('static');
+    cv.appendChild(cn);
+    box.appendChild(cv);
+    var lab = document.createElement('span'); lab.className = 'ov-lab';
+    lab.textContent = ('0' + (i+1)).slice(-2) + ' · ' + (s.dataset.label || 'SLIDE');
+    it.appendChild(box); it.appendChild(lab);
+    it.addEventListener('click', function(){ toggleOv(false); go(i); });
+    it.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); toggleOv(false); go(i); }
+    });
+    ovGrid.appendChild(it);
+    return it;
+  });
+  function layoutOv(){
+    var cols = 4, rows = Math.ceil(N/cols), gap = 26;
+    var tw = Math.min(330, (innerWidth - 112 - gap*(cols-1)) / cols);
+    var maxTh = (innerHeight - 210 - gap*(rows-1)) / rows - 42;
+    tw = Math.max(140, Math.min(tw, maxTh * 16 / 9));
+    ovGrid.style.setProperty('--tw', tw + 'px');
+    var cvs = ovGrid.querySelectorAll('.ov-canvas');
+    for(var i=0;i<cvs.length;i++) cvs[i].style.transform = 'scale(' + (tw/1280) + ')';
+  }
+  function toggleOv(force){
+    var open = (typeof force === 'boolean') ? force : !ov.classList.contains('open');
+    if(open){ layoutOv(); ov.classList.add('open'); } else { ov.classList.remove('open'); }
+    ovBtn.setAttribute('aria-expanded', open);
+  }
+  ov.addEventListener('click', function(e){ if(!e.target.closest('.ov-item,.ov-head')) toggleOv(false); });
+
+  /* ---- toast ---- */
+  var tt;
+  function toast(m){
+    var t = document.getElementById('toast');
+    t.textContent = m;
+    t.classList.add('show');
+    clearTimeout(tt);
+    tt = setTimeout(function(){ t.classList.remove('show'); }, 2400);
+  }
+
+  /* ---- thank-you actions (scoped to live stage, not clones) ---- */
+  var MAIL = 'alexandra.reyes@meridian-group.com';
+  function copyMail(){
+    function fallback(){
+      try{
+        var i = document.createElement('textarea');
+        i.value = MAIL; i.style.position = 'fixed'; i.style.opacity = '0';
+        document.body.appendChild(i); i.select();
+        var ok = document.execCommand('copy');
+        i.remove();
+        toast(ok ? 'Email copied to clipboard' : 'Copy failed — ' + MAIL);
+      }catch(_){ toast('Copy failed — ' + MAIL); }
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(MAIL).then(
+        function(){ toast('Email copied to clipboard'); }, fallback
+      );
+    } else fallback();
+  }
+  stage.querySelectorAll('[data-copy-mail]').forEach(function(b){ b.addEventListener('click', copyMail); });
+  stage.querySelector('[data-restart]').addEventListener('click', function(){ go(0); });
+
+  /* ---- controls ---- */
+  prevBtn.addEventListener('click', function(){ go(idx-1); });
+  nextBtn.addEventListener('click', function(){ go(idx+1); });
+  ovBtn.addEventListener('click', function(){ toggleOv(); });
+  function toggleFs(){
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen().catch(function(){});
+  }
+  fsBtn.addEventListener('click', toggleFs);
+
+  addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ toggleOv(false); return; }
+    if(e.key === 'o' || e.key === 'O'){ toggleOv(); return; }
+    if(e.key === 'f' || e.key === 'F'){ toggleFs(); return; }
+    if(e.key === ' ' && e.target.closest && e.target.closest('button,.ov-item')) return;
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); go(idx+1); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); go(idx-1); break;
+      case 'Home': e.preventDefault(); go(0); break;
+      case 'End': e.preventDefault(); go(N-1); break;
+    }
+  });
+
+  /* ---- touch swipe ---- */
+  var sx = 0, sy = 0;
+  addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive:true});
+  addEventListener('touchend', function(e){
+    if(ov.classList.contains('open')) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4) go(idx + (dx < 0 ? 1 : -1));
+  }, {passive:true});
+
+  /* ---- boot ---- */
+  setTimeout(function(){ document.getElementById('hint').classList.add('hide'); }, 7000);
+  go(0);
+})();
+</script>
+</body>
+</html>
