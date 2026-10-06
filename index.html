@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Gallery — Wahyu Teguh</title>
+<meta name="description" content="Galeri deck presentasi HTML oleh Wahyu Teguh.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23040A20'/><rect x='18' y='26' width='64' height='40' rx='4' fill='none' stroke='%23FFC531' stroke-width='7'/><rect x='44' y='70' width='12' height='12' fill='%23FFC531'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="gallery.js" defer></script>
+</head>
+<body>
+<header class="head">
+  <div>
+    <p class="kicker">slide.wahyuteguh.com</p>
+    <h1>Slide Gallery</h1>
+  </div>
+  <p class="sub">Koleksi deck presentasi HTML — dibuat sendiri, jalan di browser, tanpa PowerPoint.</p>
+</header>
+
+<main id="grid" class="grid" aria-live="polite"></main>
+
+<p id="empty" class="empty" hidden>Belum ada deck. Taruh file di folder <code>decks/&lt;slug&gt;/index.html</code>, lalu jalankan <code>node tools/build-manifest.mjs</code>.</p>
+
+<footer class="foot">
+  <a href="https://wahyuteguh.com">wahyuteguh.com</a>
+  <span>·</span>
+  <span id="count"></span>
+</footer>
+</body>
+</html>
