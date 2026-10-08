@@ -11,7 +11,7 @@ const io = new IntersectionObserver(entries => {
   }
 }, { rootMargin: '240px' });
 
-function card({ slug, title, path }) {
+function card({ title, slides, path }) {
   const a = document.createElement('a');
   a.className = 'card';
   a.href = path;
@@ -27,12 +27,16 @@ function card({ slug, title, path }) {
 
   const meta = document.createElement('span');
   meta.className = 'meta';
-  const h2 = document.createElement('h2');
-  h2.textContent = title;
-  const open = document.createElement('span');
-  open.className = 'open';
-  open.textContent = 'Buka →';
-  meta.append(h2, open);
+  const t = document.createElement('span');
+  t.className = 't';
+  t.textContent = title;
+  const d = document.createElement('span');
+  d.className = 'd';
+  d.textContent = `${slides ? slides + ' slide · ' : ''}${path}`;
+  const hand = document.createElement('span');
+  hand.className = 'hand';
+  hand.textContent = 'buka →';
+  meta.append(t, d, hand);
 
   a.append(frame, meta);
   return a;
@@ -61,3 +65,15 @@ fetch('manifest.json')
     empty.hidden = false;
     empty.textContent = 'manifest.json belum ada — jalankan: node tools/build-manifest.mjs';
   });
+
+const modes = ['paper', 'dark', 'ice', 'ice-night'];
+const modeBtn = document.getElementById('mode-toggle');
+const savedMode = localStorage.getItem('mode');
+if (savedMode && modes.includes(savedMode)) document.documentElement.dataset.mode = savedMode;
+modeBtn.textContent = `mode: ${document.documentElement.dataset.mode || 'paper'}`;
+modeBtn.addEventListener('click', () => {
+  const next = modes[(modes.indexOf(document.documentElement.dataset.mode || 'paper') + 1) % modes.length];
+  document.documentElement.dataset.mode = next;
+  localStorage.setItem('mode', next);
+  modeBtn.textContent = `mode: ${next}`;
+});
