@@ -65,15 +65,3 @@ fetch('manifest.json')
     empty.hidden = false;
     empty.textContent = 'manifest.json belum ada — jalankan: node tools/build-manifest.mjs';
   });
-
-const modes = ['paper', 'dark', 'ice', 'ice-night'];
-const modeBtn = document.getElementById('mode-toggle');
-const savedMode = localStorage.getItem('mode');
-if (savedMode && modes.includes(savedMode)) document.documentElement.dataset.mode = savedMode;
-modeBtn.textContent = `mode: ${document.documentElement.dataset.mode || 'paper'}`;
-modeBtn.addEventListener('click', () => {
-  const next = modes[(modes.indexOf(document.documentElement.dataset.mode || 'paper') + 1) % modes.length];
-  document.documentElement.dataset.mode = next;
-  localStorage.setItem('mode', next);
-  modeBtn.textContent = `mode: ${next}`;
-});
