@@ -1,0 +1,12 @@
+/* paper — personal brand: YouTube, Reels, TikTok. Sampled from the WizVis dashboard. */
+:root{
+  --bg:#F3EEE3; --surface:#FBF7EE;
+  --ink:#17130C; --ink-soft:#6B6453;
+  --line:#D9CEB8; --line-2:#C9BFA9;
+  --accent:#E8430D; --accent-2:#E9A319; --accent-ink:#FBF7EE;
+  --dark-bg:#17130C; --dark-ink:#F3EEE3;
+  --font-sans:'Bricolage Grotesque',system-ui,sans-serif;
+  --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+  --font-mono:'Spline Sans Mono',ui-monospace,monospace;
+  --radius:3px;
+}

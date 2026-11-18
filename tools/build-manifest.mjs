@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 
 const decks = readdirSync('decks', { withFileTypes: true })
-  .filter(d => d.isDirectory() && existsSync(`decks/${d.name}/index.html`))
+  .filter(d => d.isDirectory() && !d.name.startsWith('_') && existsSync(`decks/${d.name}/index.html`))
   .map(d => {
     const html = readFileSync(`decks/${d.name}/index.html`, 'utf8');
     const title = html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim() || d.name;

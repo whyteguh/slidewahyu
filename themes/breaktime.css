@@ -1,0 +1,12 @@
+/* breaktime — sampled from breaktime.id (17 Nov 2026). Green, warm, calm. */
+:root{
+  --bg:#F5F7F0; --surface:#FFFFFF;
+  --ink:#1A2E1A; --ink-soft:#6B7F6B;
+  --line:#DDE4D6; --line-2:#C9D3C1;
+  --accent:#16A34A; --accent-2:#EAB308; --accent-ink:#FFFFFF;
+  --dark-bg:#1A2E1A; --dark-ink:#F5F7F0;
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-display:'Inter',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --radius:10px;
+}

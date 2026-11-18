@@ -1,0 +1,16 @@
+/* incentric-navy — Incentric identity in navy + yellow on white, per the
+   "Low effort, hi impact" brief. Same brand as incentric.css, accent moved
+   from blue to navy so the yellow carries the highlight. */
+:root{
+  --bg:#FFFFFF; --surface:#F8FAFC;
+  --ink:#0F172A; --ink-soft:#55617A;
+  --line:#E2E8F0; --line-2:#CBD5E1;
+  --accent:#0F172A; --accent-2:#FFBC00; --accent-ink:#FFFFFF;
+  --dark-bg:#0F172A; --dark-ink:#F8FAFC;
+  --dark-soft:#94A3B8; --dark-line:#1E293B; --dark-surface:#111C33;
+  --dark-accent:#FFBC00;
+  --font-sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+  --font-display:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --radius:8px;
+}

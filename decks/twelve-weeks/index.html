@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id" data-format="16:9">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dua belas minggu, bukan setahun — catatan baca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../themes/_base.css">
+<link rel="stylesheet" href="../../themes/dossier.css">
+<style>
+/* Deck-specific layout only. Every colour, font and radius comes from the theme. */
+
+/* ── cover ───────────────────────────────────────────────────── */
+.s-cover h1{max-width:1400px; line-height:1.08}
+.s-thanks h1{max-width:1500px; line-height:1.08}
+.s-cover .lead{margin-top:var(--s5)}
+.cover-meta{
+  display:flex; justify-content:space-between; gap:var(--s6);
+  border-top:1px solid var(--line); padding-top:var(--s3);
+  margin-top:var(--s7);
+  font-family:var(--font-mono); font-size:17px; color:var(--ink-soft);
+}
+
+/* ── shared split ────────────────────────────────────────────── */
+.split-2{display:grid; grid-template-columns:1.15fr .85fr; gap:var(--s8); align-items:center}
+.split-2.rev{grid-template-columns:.85fr 1.15fr}
+
+/* ── chart notes ─────────────────────────────────────────────── */
+.chart-note{
+  font-family:var(--font-mono); font-size:17px; color:var(--ink-soft);
+  margin-top:var(--s3); line-height:1.6;
+}
+
+/* ── 04 · the year splits ────────────────────────────────────── */
+.yearbox{max-width:1400px; margin-top:var(--s6)}
+.yearbar{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:3px;
+  height:230px; cursor:pointer;
+}
+.yearbar .q{
+  position:relative; background:var(--ink);
+  display:flex; align-items:flex-end; padding:var(--s4) var(--s5);
+  transition:transform .6s cubic-bezier(.22,.7,.28,1);
+}
+.yearbar .q::after{
+  content:""; position:absolute; inset:0;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(33.33% - 1px),var(--bg) calc(33.33% - 1px) 33.33%);
+  opacity:.28;
+}
+.yearbar .q b{
+  position:relative; z-index:1;
+  font-family:var(--font-mono); font-weight:500; font-size:19px;
+  color:var(--bg); opacity:0; transform:translateY(10px);
+  transition:opacity .45s cubic-bezier(.22,.7,.28,1), transform .45s cubic-bezier(.22,.7,.28,1);
+}
+.yearbar.split{gap:22px}
+.yearbar.split .q:nth-child(2){transform:translateY(14px)}
+.yearbar.split .q:nth-child(3){transform:translateY(-8px)}
+.yearbar.split .q:nth-child(4){transform:translateY(20px)}
+.slide.on .yearbar.split .q b{opacity:1; transform:none}
+.yearbar.split .q b:nth-child(1){transition-delay:0ms}
+.ycap{
+  display:flex; justify-content:space-between; gap:var(--s6);
+  margin-top:var(--s3); font-family:var(--font-mono); font-size:17px;
+  color:var(--ink-soft); min-height:24px;
+}
+.ycap .two{opacity:0; transition:opacity .4s ease .25s}
+.yearbox.did .ycap .one{display:none}
+.yearbox.did .ycap .two{opacity:1}
+
+/* ── 05 · the loop ───────────────────────────────────────────── */
+.loopwrap{display:grid; grid-template-columns:460px 1fr; gap:var(--s8); align-items:center}
+.ring{position:relative; width:460px; height:460px}
+.ring svg{display:block; width:100%; height:100%; overflow:visible}
+.ring .track{fill:none; stroke:var(--line); stroke-width:1.5}
+.ring .spoke{stroke:var(--line); stroke-width:1}
+.ring .node{cursor:pointer; outline:none}
+.ring .node circle{fill:var(--bg); stroke:var(--line); stroke-width:2; transition:fill .3s, stroke .3s}
+.ring .node:hover circle{stroke:var(--ink)}
+.ring .node[aria-pressed="true"] circle{fill:var(--accent); stroke:var(--accent)}
+.ring .numb{font-family:var(--font-mono); font-size:15px; fill:var(--ink-soft); text-anchor:middle; pointer-events:none}
+.ring .node:focus-visible circle{stroke:var(--accent); stroke-width:3}
+.loopdetail .step-no{font-family:var(--font-mono); font-size:17px; color:var(--accent)}
+.loopdetail h3{
+  font-family:var(--font-display); font-weight:600; font-size:44px;
+  line-height:1.06; letter-spacing:-.02em; margin-top:var(--s1);
+  font-variation-settings:"SOFT" 0, "WONK" 1, "opsz" 144;
+}
+.loopdetail p{font-size:22px; line-height:1.55; color:var(--ink-soft); margin-top:var(--s3); max-width:34ch}
+.fade-in{animation:swapIn .42s cubic-bezier(.22,.7,.28,1)}
+@keyframes swapIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+
+/* ── 06 · table ──────────────────────────────────────────────── */
+.tbl{width:100%; border-collapse:collapse; font-size:22px; margin-top:var(--s5)}
+.tbl th{
+  text-align:left; font-family:var(--font-mono); font-weight:400; font-size:17px;
+  color:var(--ink-soft); padding:0 var(--s4) var(--s2); border-bottom:1px solid var(--line);
+}
+.tbl th.c,.tbl td.c{text-align:center; width:15%}
+.tbl td{padding:var(--s3) var(--s4); border-bottom:1px solid var(--line)}
+.tbl tr.endtop td{border-bottom:none}
+.tbl tr.sep td{border-top:1px dashed var(--line); padding-top:var(--s4)}
+.mark{display:inline-block; width:11px; height:11px; background:var(--ink); border-radius:50%}
+.mark.no{background:none; border:1px solid var(--line-2, var(--line))}
+.tblnote{
+  margin-top:var(--s4); font-family:var(--font-mono); font-size:17px;
+  color:var(--ink-soft); display:flex; gap:var(--s5); flex-wrap:wrap;
+}
+
+/* ── 07 · mechanism cards ────────────────────────────────────── */
+.cards{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s4); align-items:start; margin-top:var(--s6)}
+.mcard{
+  appearance:none; text-align:left; background:transparent; color:inherit;
+  border:1px solid var(--line); padding:var(--s5);
+  cursor:pointer; display:flex; flex-direction:column; gap:var(--s3);
+  min-height:280px;
+  transition:border-color .3s, transform .3s;
+}
+.mcard:hover{border-color:var(--ink); transform:translateY(-3px)}
+.mcard:active{transform:translateY(0)}
+.mcard:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+.mcard .src{font-family:var(--font-mono); font-size:17px; color:var(--ink-soft)}
+.mcard .say{
+  font-family:var(--font-display); font-weight:600; font-size:28px;
+  line-height:1.28; letter-spacing:-.01em;
+  font-variation-settings:"SOFT" 0, "WONK" 1, "opsz" 144;
+}
+.mcard .verdict{
+  margin-top:auto; font-size:19px; line-height:1.5; color:var(--ink-soft);
+  display:grid; grid-template-rows:0fr;
+  transition:grid-template-rows .45s cubic-bezier(.22,.7,.28,1), color .3s;
+}
+.mcard .verdict p{overflow:hidden; min-height:0}
+.mcard.on .verdict{grid-template-rows:1fr; color:var(--ink)}
+.mcard.on .verdict p{padding-top:var(--s1)}
+.mcard.keep{border-color:var(--accent)}
+.mcard.keep .verdict{color:var(--accent)}
+
+/* ── 08 · numbers ────────────────────────────────────────────── */
+.numgrid{display:grid; grid-template-columns:520px 1fr; gap:var(--s8); align-items:center; margin-top:var(--s5)}
+.numlist{display:flex; flex-direction:column}
+.numlist .row{
+  display:grid; grid-template-columns:150px 1fr; gap:var(--s5);
+  align-items:baseline; padding:var(--s4) 0; border-top:1px solid var(--line);
+}
+.numlist .row:last-child{border-bottom:1px solid var(--line)}
+.numlist .fig{
+  font-family:var(--font-display); font-weight:600; font-size:46px;
+  letter-spacing:-.03em; line-height:1;
+  font-variation-settings:"SOFT" 0, "WONK" 1, "opsz" 144;
+}
+.numlist p{font-size:19px; line-height:1.5; color:var(--ink-soft)}
+
+/* ── 09 · gaps ───────────────────────────────────────────────── */
+.gaps{list-style:none; margin-top:var(--s5); max-width:1500px}
+.gaps li{
+  display:grid; grid-template-columns:56px 1fr; gap:var(--s5);
+  align-items:baseline; padding:var(--s3) 0;
+  border-top:1px solid var(--line);
+  font-size:24px; line-height:1.45;
+}
+.gaps li:last-child{border-bottom:1px solid var(--line)}
+.gaps .n{font-family:var(--font-mono); font-size:17px; color:var(--ink-soft)}
+
+/* ── 10 · the claim ──────────────────────────────────────────── */
+.bigclaim{
+  font-family:var(--font-display); font-weight:600;
+  font-size:124px; line-height:1.06; letter-spacing:-.032em;
+  font-variation-settings:"SOFT" 0, "WONK" 1, "opsz" 144;
+  max-width:16ch;
+}
+.bigclaim em{font-style:italic; font-weight:500; color:var(--accent)}
+
+/* ── 11 · collision ──────────────────────────────────────────── */
+.seg{display:inline-flex; border:1px solid var(--line); width:max-content; margin-top:var(--s5)}
+.seg button{
+  appearance:none; background:none; border:0; cursor:pointer;
+  font-family:var(--font-mono); font-size:17px; color:var(--ink-soft);
+  padding:12px 24px;
+  transition:background .3s, color .3s;
+}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink); color:var(--bg)}
+.collide{margin-top:var(--s6); max-width:1400px}
+.pane{display:none}
+.pane.on{display:block; animation:swapIn .45s cubic-bezier(.22,.7,.28,1)}
+.pane .who{font-family:var(--font-mono); font-size:17px; color:var(--accent); margin-bottom:var(--s2)}
+.pane blockquote{
+  font-family:var(--font-display); font-weight:600;
+  font-size:52px; line-height:1.22; letter-spacing:-.018em;
+  max-width:26ch;
+  font-variation-settings:"SOFT" 0, "WONK" 1, "opsz" 144;
+}
+.unres{
+  margin-top:var(--s6); padding-top:var(--s4); border-top:1px solid var(--line);
+  font-family:var(--font-mono); font-size:18px; line-height:1.7;
+  color:var(--ink-soft); max-width:64ch;
+}
+
+/* ── 12 · how to use ─────────────────────────────────────────── */
+.how{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s7); margin-top:var(--s7)}
+.how > div{border-top:1px solid var(--line); padding-top:var(--s4)}
+.how .when{font-family:var(--font-mono); font-size:17px; color:var(--accent)}
+.how p{font-size:22px; line-height:1.5; color:var(--ink-soft); margin-top:var(--s2)}
+.closeline{
+  margin-top:var(--s7); padding-top:var(--s4); border-top:1px solid var(--line);
+  font-family:var(--font-mono); font-size:19px; color:var(--ink-soft);
+}
+
+/* ── 13 · thank you ──────────────────────────────────────────── */
+.thanks-foot{
+  display:flex; justify-content:space-between; gap:var(--s6); flex-wrap:wrap;
+  border-top:1px solid var(--line); padding-top:var(--s4); margin-top:var(--s7);
+  font-family:var(--font-mono); font-size:17px; color:var(--ink-soft);
+}
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+  <div class="deck-stage">
+
+    <!-- 1 · cover -->
+    <section class="slide center s-cover">
+      <span class="kicker a">Catatan baca · The 12 Week Year</span>
+      <h1 class="a-mask">Dua belas minggu,<br>bukan setahun.</h1>
+      <p class="lead a">Tiga ringkasan, satu buku yang masih di rak. Ini peta sebelum halaman
+        pertama: di mana ketiganya setuju, di mana mereka berselisih, dan angka mana yang harus
+        dicek dulu.</p>
+      <div class="cover-meta a">
+        <span>Brian P. Moran &amp; Michael Lennington</span>
+        <span>Disusun dari tiga ringkasan, bukan dari buku</span>
+      </div>
+    </section>
+
+    <!-- 2 · diagnosis -->
+    <section class="slide">
+      <span class="kicker a">01 · Diagnosis</span>
+      <h2 class="a-mask">Yang kurang bukan pengetahuan.</h2>
+      <p class="lead a">Orang tahu apa yang harus dilakukan, lalu tidak melakukannya. Moran dan
+        Lennington menyebutnya execution gap. Buku ini tidak menambah satu pun hal baru yang
+        perlu kamu ketahui.</p>
+      <div class="fill"></div>
+      <div class="a" style="max-width:1100px">
+        <div class="chart" data-chart="meter" data-values="100,34" data-labels="Kapabilitas,Yang dikerjakan"></div>
+        <p class="chart-note">Selisih antara dua batang itu yang disebut masalah. Bukan kurangnya
+          batang atas.</p>
+      </div>
+      <div class="foot a"><span>slidewahyu · dossier</span><span>Diagnosis</span></div>
+    </section>
+
+    <!-- 3 · the deadline -->
+    <section class="slide">
+      <span class="kicker a">02 · Sebab pertama</span>
+      <h2 class="a-mask">Setahun itu terlalu jauh.</h2>
+      <p class="lead a">Tenggat yang letaknya sebelas bulan dari sekarang tidak pernah mendesak.
+        Yang mengisi ruang bukan kerja, tapi apa pun yang kebetulan tersedia.</p>
+      <div class="fill"></div>
+      <div class="a" style="max-width:1500px">
+        <div class="chart" data-chart="line" data-nolabels
+             data-values="3,3,4,3,3,4,3,3,3,4,7,97"></div>
+        <p class="chart-note">Urgensi sepanjang dua belas bulan. Datar sampai bulan terakhir,
+          lalu menembak.</p>
+      </div>
+      <div class="foot a"><span>Parkinson mengisi ruang yang tersedia</span><span>Sebab pertama</span></div>
+    </section>
+
+    <!-- 4 · the year splits -->
+    <section class="slide">
+      <span class="kicker a">03 · Perbaikan</span>
+      <h2 class="a-mask">Setahun, didefinisikan ulang.</h2>
+      <p class="lead a">Dua belas minggu, empat kali dalam satu tahun kalender. Tiap siklus punya
+        gol sendiri, taktik mingguan sendiri, dan skor sendiri.</p>
+      <div class="yearbox a" id="yearbox">
+        <div class="yearbar" id="yearbar" role="button" tabindex="0" data-no-nav
+             aria-label="Pecah satu tahun menjadi empat siklus dua belas minggu">
+          <div class="q"><b>Siklus 1</b></div>
+          <div class="q"><b>Siklus 2</b></div>
+          <div class="q"><b>Siklus 3</b></div>
+          <div class="q"><b>Siklus 4</b></div>
+        </div>
+        <div class="ycap">
+          <span class="one">klik untuk memecah setahun</span>
+          <span class="two">empat perencanaan · empat skor · empat kesempatan memperbaiki</span>
+        </div>
+      </div>
+      <div class="foot a"><span>Periodisasi pinjam dari atletik</span><span>Perbaikan</span></div>
+    </section>
+
+    <!-- 5 · the loop -->
+    <section class="slide">
+      <span class="kicker a">04 · Sistemnya</span>
+      <h2 class="a-mask">Tujuh langkah, berulang.</h2>
+      <div class="fill"></div>
+      <div class="loopwrap a">
+        <div class="ring" id="ring">
+          <svg viewBox="0 0 460 460" aria-label="Tujuh langkah sistem, melingkar"></svg>
+        </div>
+        <div class="loopdetail" id="loopdetail" aria-live="polite"></div>
+      </div>
+      <div class="foot a"><span>Klik simpulnya</span><span>Sistemnya</span></div>
+    </section>
+
+    <!-- 6 · agreement -->
+    <section class="slide">
+      <span class="kicker a">05 · Yang disepakati</span>
+      <h2 class="a-mask">Empat yang aman dianggap posisi buku.</h2>
+      <p class="lead a">Tiga ringkasan independen bukan bukti kuat. Tapi itu yang ada. Di bawah
+        garis putus-putus, mereka mulai berselisih.</p>
+      <table class="tbl a">
+        <thead>
+          <tr><th>Klaim</th><th class="c">Abdaal</th><th class="c">Hill</th><th class="c">Read And Grow</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Masalahnya eksekusi, bukan pengetahuan</td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td></tr>
+          <tr><td>Dua belas minggu menggantikan setahun</td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td></tr>
+          <tr><td>Urgensi datang dari tenggat yang lebih dekat</td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td></tr>
+          <tr class="endtop"><td>Visi itu syarat</td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark no"></span></td></tr>
+          <tr class="sep"><td>Diukur tiap minggu</td><td class="c"><span class="mark no"></span></td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td></tr>
+          <tr><td>Periodisasi pinjam dari atletik</td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark"></span></td><td class="c"><span class="mark no"></span></td></tr>
+          <tr><td>Indikator lead dan lag dibedakan</td><td class="c"><span class="mark no"></span></td><td class="c"><span class="mark no"></span></td><td class="c"><span class="mark"></span></td></tr>
+        </tbody>
+      </table>
+      <div class="tblnote a"><span>● disebut · ○ tidak disebut</span><span>empat baris di atas garis: aman dianggap posisi buku</span></div>
+      <div class="foot a"><span>Tiga ringkasan, tiga penulis berbeda</span><span>Yang disepakati</span></div>
+    </section>
+
+    <!-- 7 · mechanism -->
+    <section class="slide dark">
+      <span class="kicker a">06 · Perbedaan pertama</span>
+      <h2 class="a-mask">Kenapa dua belas minggu bekerja.</h2>
+      <p class="lead a">Tiga penjelasan berbeda, dan ini bukan perbedaan kosmetik. Penjelasan
+        yang benar menentukan seberapa besar efeknya.</p>
+      <div class="cards">
+        <button class="mcard a" type="button" data-card>
+          <span class="src">Abdaal</span>
+          <span class="say">Tenggat mengubah apa yang kamu habiskan waktu untuk mengerjakan.</span>
+          <span class="verdict"><p>Yang ini bertahan. Prinsipnya alokasi perhatian, bukan
+            kapasitas. Konsekuensinya tidak nyaman: alat penghapus gangguan, bukan pengali
+            keluaran.</p></span>
+        </button>
+        <button class="mcard a" type="button" data-card>
+          <span class="src">Tim Hill</span>
+          <span class="say">Manusia memang bertindak berbeda saat tenggat mengintip.</span>
+          <span class="verdict"><p>Mengulang gejala, tidak menjelaskan mekanismenya. Kalau cuma
+            soal tenggat, tenggat tiga minggu akan bekerja lebih baik lagi.</p></span>
+        </button>
+        <button class="mcard a" type="button" data-card>
+          <span class="src">Read And Grow</span>
+          <span class="say">Matematika sederhana: empat tahun dalam satu.</span>
+          <span class="verdict"><p>Dua belas minggu itu satu kuartal, bukan satu tahun. Yang
+            dilipatgandakan jumlah siklus perencanaan, bukan hasilnya.</p></span>
+        </button>
+      </div>
+      <div class="foot a"><span>Klik tiap kartu untuk konsekuensinya</span><span>Perbedaan pertama</span></div>
+    </section>
+
+    <!-- 8 · numbers -->
+    <section class="slide">
+      <span class="kicker a">07 · Angka</span>
+      <h2 class="a-mask">Tiga angka, nol sumber.</h2>
+      <div class="numgrid">
+        <div class="a">
+          <div class="chart" data-chart="donut" data-values="85,15" data-labels="Tercapai,Sisa"></div>
+          <p class="chart-note">Ambang mingguan yang disebut “unggul”. Tidak ada studi di
+            belakangnya.</p>
+        </div>
+        <div class="numlist a">
+          <div class="row">
+            <span class="fig">85%</span>
+            <p>Hill sendiri memberi contoh 96%, jauh di atas ambangnya. Tidak ada yang menjelaskan
+              kenapa 85 dan bukan 80.</p>
+          </div>
+          <div class="row">
+            <span class="fig">4×</span>
+            <p>Tanpa penyebut, tanpa metode, tanpa kelompok pembanding. Empat kali dari apa,
+              diukur bagaimana.</p>
+          </div>
+          <div class="row">
+            <span class="fig">4 tahun</span>
+            <p>Dua belas minggu itu satu kuartal. Klaim yang jujur: empat siklus perencanaan,
+              bukan empat tahun pengalaman.</p>
+          </div>
+        </div>
+      </div>
+      <div class="foot a"><span>Ini yang pertama dicek di buku</span><span>Angka</span></div>
+    </section>
+
+    <!-- 9 · gaps -->
+    <section class="slide">
+      <span class="kicker a">08 · Yang hilang</span>
+      <h2 class="a-mask">Lima yang tidak dijawab.</h2>
+      <ol class="gaps">
+        <li class="a"><span class="n">01</span><span>Minggu ketiga belas. Abdaal menyebut minggu istirahat sebagai variannya sendiri. Ada di buku atau tidak.</span></li>
+        <li class="a"><span class="n">02</span><span>Minggu yang gagal. Hill bilang mahal, tidak ada yang menyebut aturan pemulihannya.</span></li>
+        <li class="a"><span class="n">03</span><span>Gol dua belas minggu diturunkan ulang tiap siklus, atau dibawa apa adanya dari gol tiga tahun.</span></li>
+        <li class="a"><span class="n">04</span><span>Dua gol berebut jam yang sama. Sistem membolehkan empat gol tanpa aturan arbitrase.</span></li>
+        <li class="a"><span class="n">05</span><span>Gol yang salah. Semua komponen bisa berjalan sempurna dan mengantar ke tempat yang keliru, tepat waktu.</span></li>
+      </ol>
+      <div class="foot a"><span>Celah yang kemungkinan besar diisi buku</span><span>Yang hilang</span></div>
+    </section>
+
+    <!-- 10 · the claim -->
+    <section class="slide dark center">
+      <span class="kicker a">09 · Klaim sebenarnya</span>
+      <h2 class="bigclaim a-mask">Orang gagal karena <em>berhenti</em>.</h2>
+      <p class="lead a">Bukan karena kurang usaha. Siklus yang lebih pendek membuat berhenti lebih
+        murah, jadi orang berhenti lebih jarang. Yang dilipatgandakan adalah kesediaan memulai
+        lagi, dan itu klaim yang tenang, bukan klaim hustle.</p>
+    </section>
+
+    <!-- 11 · collision -->
+    <section class="slide">
+      <span class="kicker a">10 · Benturan</span>
+      <h2 class="a-mask">Berhenti di batas, atau bertahan di dip?</h2>
+      <div class="seg a" role="group" aria-label="Pilih posisi">
+        <button type="button" data-pane="godin" aria-pressed="true">Godin</button>
+        <button type="button" data-pane="framework" aria-pressed="false">Kerangka ini</button>
+      </div>
+      <div class="collide a">
+        <div class="pane on" data-pane-body="godin">
+          <div class="who">Seth Godin · The Dip</div>
+          <blockquote>Nilai justru ada di dalam dip. Berhenti tepat di ambang kesulitan adalah
+            kesalahan klasik, bukan keputusan strategis.</blockquote>
+        </div>
+        <div class="pane" data-pane-body="framework">
+          <div class="who">Moran &amp; Lennington</div>
+          <blockquote>Berhenti di batas siklus. Dua belas minggu adalah tempat yang sah untuk
+            mengevaluasi ulang, bukan tempat yang harus dipertahankan sampai habis.</blockquote>
+        </div>
+        <div class="unres">Tidak satu pun dari empat sumber menyelesaikan ini. Memutuskan mana
+          yang benar butuh tes untuk membedakan dip dan jalan buntu, dan tes itu tidak ada di buku
+          maupun di ketiga ringkasannya.</div>
+      </div>
+      <div class="foot a"><span>Belum selesai, dan diakui belum selesai</span><span>Benturan</span></div>
+    </section>
+
+    <!-- 12 · how to use -->
+    <section class="slide">
+      <span class="kicker a">11 · Cara pakai</span>
+      <h2 class="a-mask">Sebelum, selama, sesudah.</h2>
+      <div class="how">
+        <div class="a"><span class="when">Sebelum baca</span>
+          <p>Bagian tulang punggung sudah cukup untuk mengikuti argumen bukunya. Tidak perlu mencatat.</p></div>
+        <div class="a"><span class="when">Sambil baca</span>
+          <p>Cek tiga angka dulu: 85%, 4×, empat tahun. Lalu lima celah di halaman sebelumnya.</p></div>
+        <div class="a"><span class="when">Setelah baca</span>
+          <p>Catatan ini seharusnya dikoreksi. Dia dibangun dari ringkasan, dan bukunya ada di rak.</p></div>
+      </div>
+      <div class="closeline a">Begitu halaman ini berbeda dengan buku, buku yang benar dan catatan
+        ini yang salah.</div>
+      <div class="foot a"><span>slidewahyu · dossier</span><span>Cara pakai</span></div>
+    </section>
+
+    <!-- 13 · thank you -->
+    <section class="slide center s-thanks dark">
+      <span class="kicker a">Selesai</span>
+      <h1 class="a-mask">Terima kasih.</h1>
+      <p class="lead a">Kalau ada satu yang dibawa pulang, ambil yang ini: yang gagal bukan yang
+        kurang tahu, tapi yang berhenti. Dua belas minggu membuat berhenti lebih murah, dan itu
+        justru yang membuat orang berhenti lebih jarang.</p>
+      <div class="thanks-foot a">
+        <span>Wahyu Teguh</span>
+        <span>Disusun dari tiga ringkasan · bukan dari buku</span>
+        <span>Panah kiri dan kanan untuk pindah</span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="../../charts.js"></script>
+<script src="../../deck.js"></script>
+<script>
+(function(){
+  'use strict';
+  var pad = function(n){ return n < 10 ? '0' + n : '' + n; };
+
+  /* ── 04 · the year splits ─────────────────────────────────── */
+  var yearbar = document.getElementById('yearbar');
+  var yearbox = document.getElementById('yearbox');
+  function splitYear(){
+    var on = yearbar.classList.toggle('split');
+    yearbox.classList.toggle('did', on);
+  }
+  if (yearbar) {
+    yearbar.addEventListener('click', splitYear);
+    yearbar.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); splitYear(); }
+    });
+  }
+
+  /* ── 05 · the loop ────────────────────────────────────────── */
+  var LOOP = [
+    ['Visi', 'Lima belas tahun ke depan, dibagi ke tujuh bidang hidup. Ini bagian yang paling sering dilewati dan paling sering dibela penulisnya.'],
+    ['Gol 3–5 tahun', 'Arah, bukan angka. Tempat visi bertemu kenyataan yang bisa direncanakan.'],
+    ['Gol 12 minggu', 'Satu sampai empat gol. Tidak lebih. Batas ini yang memaksa pemilihan.'],
+    ['Taktik mingguan', 'Aksi yang bisa dicentang. Kalau tidak bisa dicentang, itu bukan taktik.'],
+    ['Aksi harian', 'Yang benar-benar terjadi hari ini, bukan yang direncanakan.'],
+    ['Skor', 'Persentase taktik yang selesai. Ukuran masukan, bukan ukuran hasil.'],
+    ['Review', 'Satu minggu, satu keputusan. Tanpa ini skornya cuma angka yang sedih.']
+  ];
+  var ringSvg = document.querySelector('#ring svg');
+  var loopDetail = document.getElementById('loopdetail');
+  var activeNode = -1;
+
+  if (ringSvg) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var cx = 230, cy = 230, R = 170;
+
+    var track = document.createElementNS(NS, 'circle');
+    track.setAttribute('class', 'track');
+    track.setAttribute('cx', cx); track.setAttribute('cy', cy); track.setAttribute('r', R);
+    ringSvg.appendChild(track);
+
+    LOOP.forEach(function(step, i){
+      var a = (-90 + i * (360 / LOOP.length)) * Math.PI / 180;
+      var x = cx + R * Math.cos(a), y = cy + R * Math.sin(a);
+      var lx = cx + (R + 46) * Math.cos(a), ly = cy + (R + 46) * Math.sin(a);
+
+      var spoke = document.createElementNS(NS, 'line');
+      spoke.setAttribute('class', 'spoke');
+      spoke.setAttribute('x1', cx + (R - 30) * Math.cos(a));
+      spoke.setAttribute('y1', cy + (R - 30) * Math.sin(a));
+      spoke.setAttribute('x2', x); spoke.setAttribute('y2', y);
+      ringSvg.appendChild(spoke);
+
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('class', 'node');
+      g.setAttribute('tabindex', '0');
+      g.setAttribute('role', 'button');
+      g.setAttribute('aria-pressed', 'false');
+      g.setAttribute('aria-label', step[0]);
+
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 9);
+      g.appendChild(c);
+      g.addEventListener('click', function(ev){ ev.stopPropagation(); selectNode(i); });
+      g.addEventListener('keydown', function(ev){
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); selectNode(i); }
+      });
+      ringSvg.appendChild(g);
+
+      var t = document.createElementNS(NS, 'text');
+      t.setAttribute('class', 'numb');
+      t.setAttribute('x', lx); t.setAttribute('y', ly + 5);
+      t.textContent = String(i + 1);
+      ringSvg.appendChild(t);
+    });
+  }
+
+  function selectNode(i){
+    if (i === activeNode) return;
+    activeNode = i;
+    [].slice.call(document.querySelectorAll('#ring .node')).forEach(function(n, k){
+      n.setAttribute('aria-pressed', String(k === i));
+    });
+    loopDetail.innerHTML =
+      '<div class="step-no">' + pad(i + 1) + ' dari 07</div>' +
+      '<h3>' + LOOP[i][0] + '</h3>' +
+      '<p>' + LOOP[i][1] + '</p>';
+    loopDetail.classList.remove('fade-in');
+    void loopDetail.offsetWidth;
+    loopDetail.classList.add('fade-in');
+  }
+  if (loopDetail) selectNode(0);
+
+  /* ── 07 · mechanism cards ─────────────────────────────────── */
+  [].slice.call(document.querySelectorAll('[data-card]')).forEach(function(card){
+    if (card.querySelector('.src').textContent.indexOf('Abdaal') > -1) card.classList.add('keep');
+    card.addEventListener('click', function(){ card.classList.toggle('on'); });
+  });
+
+  /* ── 11 · collision panes ─────────────────────────────────── */
+  var paneBtns = [].slice.call(document.querySelectorAll('[data-pane]'));
+  var panes = [].slice.call(document.querySelectorAll('[data-pane-body]'));
+  paneBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      paneBtns.forEach(function(o){ o.setAttribute('aria-pressed', String(o === b)); });
+      panes.forEach(function(p){ p.classList.toggle('on', p.dataset.paneBody === b.dataset.pane); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

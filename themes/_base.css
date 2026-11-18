@@ -1,0 +1,436 @@
+/* slidewahyu — structure only. Identity comes from themes/<brand>.css.
+   Fixed 1920×1080 stage, scaled as a whole. Nothing reflows: what you author is what
+   the audience sees, on a projector, a laptop, or a phone held sideways. */
+
+/* ── stage ────────────────────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+.deck-viewport {
+  position: fixed; inset: 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+.deck-stage {
+  position: absolute; left: 0; top: 0;
+  width: 1920px; height: 1080px;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: var(--bg);
+}
+
+/* ── slides ───────────────────────────────────────────────────── */
+.slide {
+  position: absolute; inset: 0;
+  width: 1920px; height: 1080px;
+  padding: 110px 120px;
+  display: flex; flex-direction: column;
+  gap: 40px;
+  overflow: hidden;
+  background: var(--bg);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.slide.on {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+  animation: slideIn .5s cubic-bezier(.2, .7, .3, 1) both;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(var(--dir, 56px)); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* A dark slide is the same components on an inverted ground, so it re-maps the
+   identity tokens instead of relying on every component to have a dark rule.
+   Themes may override any of the --dark-* values; these are the fallbacks. */
+.slide.dark {
+  background: var(--dark-bg, var(--ink));
+  color: var(--dark-ink, var(--bg));
+  --ink: var(--dark-ink, var(--bg));
+  --ink-soft: var(--dark-soft, #9C9682);
+  --line: var(--dark-line, #4A463C);
+  --surface: var(--dark-surface, #1B1A15);
+  --accent: var(--dark-accent, var(--accent));
+}
+.slide.dark .kicker { color: var(--ink-soft); opacity: 1; }
+
+/* ── type scale, authored at 1920×1080 ────────────────────────── */
+.kicker {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+}
+h1, .h1 {
+  font-family: var(--font-display);
+  font-size: 104px;
+  line-height: 1.0;
+  letter-spacing: -.03em;
+  font-weight: 800;
+}
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size: 68px;
+  line-height: 1.05;
+  letter-spacing: -.025em;
+  font-weight: 800;
+}
+h3, .h3 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  font-weight: 700;
+}
+.lead {
+  font-size: 32px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+.body { font-size: 26px; line-height: 1.6; }
+.small { font-size: 20px; line-height: 1.5; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.measure { max-width: 62ch; }
+.rule { height: 2px; background: var(--line); border: none; }
+
+/* spacing scale — every margin, gap and padding uses one of these */
+:root {
+  --s1: 8px; --s2: 12px; --s3: 16px; --s4: 24px; --s5: 32px;
+  --s6: 48px; --s7: 64px; --s8: 96px; --s9: 128px; --s10: 160px;
+}
+
+/* ── layouts ──────────────────────────────────────────────────── */
+.rows { display: flex; flex-direction: column; gap: 24px; }
+.cols { display: grid; gap: 40px; }
+.cols-2 { grid-template-columns: 1fr 1fr; }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: center; }
+.fill { flex: 1; min-height: 0; }
+.center { justify-content: center; }
+.middle { margin-top: auto; margin-bottom: auto; }
+.foot {
+  margin-top: auto;
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 32px;
+  font-family: var(--font-sans); font-size: 17px;
+  font-weight: 500; letter-spacing: 0;
+  color: var(--ink-soft);
+}
+
+/* ── components ───────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.card .num {
+  font-family: var(--font-sans);
+  font-size: 18px; font-weight: 500; letter-spacing: 0;
+  color: var(--ink-soft);
+}
+.card .big {
+  font-family: var(--font-display);
+  font-size: 56px; font-weight: 800; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat {
+  display: flex; flex-direction: column; gap: 8px;
+  padding-left: 24px;
+  border-left: 2px solid var(--accent);
+}
+.stat .v {
+  font-family: var(--font-mono);
+  font-size: 88px; font-weight: 700; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat .k {
+  font-family: var(--font-sans);
+  font-size: 18px; font-weight: 500; letter-spacing: 0;
+  color: var(--ink-soft);
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-size: 60px; line-height: 1.22; font-weight: 700;
+  letter-spacing: -.02em;
+}
+.quote em { color: var(--accent); font-style: normal; }
+.attrib {
+  font-family: var(--font-sans); font-size: 18px;
+  font-weight: 500; letter-spacing: 0; color: var(--ink-soft);
+}
+
+.chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-sans); font-size: 18px;
+  font-weight: 500; letter-spacing: 0;
+  padding: 8px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-soft);
+}
+.chip.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+.steps { display: flex; flex-direction: column; gap: 28px; }
+.steps li {
+  display: grid; grid-template-columns: 56px 1fr; gap: 24px;
+  list-style: none; align-items: baseline;
+}
+.steps .n {
+  font-family: var(--font-sans); font-size: 18px;
+  font-weight: 500; letter-spacing: 0; color: var(--ink-soft);
+}
+
+.track { display: flex; gap: 0; align-items: stretch; }
+.track .point {
+  flex: 1; padding: 28px 24px 0 0;
+  border-top: 2px solid var(--line); position: relative;
+}
+.track .point::before {
+  content: ""; position: absolute; top: -6px; left: 0;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent);
+}
+.track .point .when {
+  font-family: var(--font-sans); font-size: 17px;
+  font-weight: 500; letter-spacing: 0; color: var(--ink-soft);
+}
+
+.ph {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: grid; place-items: center;
+  font-family: var(--font-sans); font-size: 18px; font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+  min-height: 420px;
+}
+
+/* ── motion ───────────────────────────────────────────────────── */
+.slide .a {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .55s cubic-bezier(.2, .7, .3, 1),
+              transform .55s cubic-bezier(.2, .7, .3, 1);
+}
+.slide.on .a { opacity: 1; transform: none; }
+.slide .a-left { transform: translateX(-32px); }
+
+/* mask reveal — the line rises out of its own baseline. Use on a heading when the
+   slide has one idea and you want the audience to read it before you speak. */
+.slide .a-mask {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 105% 0);
+  transition: clip-path .7s cubic-bezier(.2, .7, .3, 1);
+}
+.slide.on .a-mask { clip-path: inset(0 0 -5% 0); }
+
+/* slow drift on a photograph. Only for real images, never for a placeholder. */
+.kenburns { overflow: hidden; }
+.kenburns img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: scale(1);
+  transition: transform 14s linear;
+}
+.slide.on .kenburns img { transform: scale(1.07); }
+.slide .a-scale { transform: scale(.94); }
+.slide.on .a-left, .slide.on .a-scale { transform: none; }
+
+/* ── charts ───────────────────────────────────────────────────── */
+.chart { width: 100%; }
+.ch-svg { display: block; width: 100%; }
+.ch-bars { height: 420px; }
+.ch-line { height: 380px; }
+.ch-donut { height: 360px; width: auto; margin: 0 auto; }
+
+.ch-bar {
+  fill: var(--accent);
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transform: scaleY(0);
+}
+.slide.on .ch-bar { animation: chGrow .72s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes chGrow { to { transform: scaleY(1); } }
+
+.ch-stroke {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.slide.on .ch-stroke { animation: chDraw 1.15s cubic-bezier(.4, 0, .2, 1) .12s forwards; }
+@keyframes chDraw { to { stroke-dashoffset: 0; } }
+
+.ch-area { fill: var(--accent); opacity: 0; }
+.slide.on .ch-area { animation: chFade .9s ease .45s forwards; }
+@keyframes chFade { to { opacity: .1; } }
+
+.ch-dot {
+  fill: var(--bg);
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.slide.on .ch-dot { animation: chPop .4s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes chPop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: scale(1); } }
+
+@property --f { syntax: "<number>"; inherits: false; initial-value: 0; }
+.ch-ring-bg { stroke: var(--line); }
+.ch-ring { stroke: var(--accent); stroke-dasharray: var(--f) 1; stroke-linecap: butt; }
+.ch-ring.alt { stroke: var(--accent-2); }
+.slide.on .ch-ring { animation: chSweep .95s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes chSweep { from { --f: 0; } }
+
+.ch-labels {
+  display: flex; justify-content: space-between; gap: 16px;
+  margin-top: 16px;
+  font-family: var(--font-sans); font-size: 17px;
+  font-weight: 500; letter-spacing: 0;
+  color: var(--ink-soft);
+}
+.ch-labels span { flex: 1; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+.ch-labels b {
+  font-weight: 600; color: var(--ink); font-size: 20px;
+  font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+.ch-labels i { font-style: normal; opacity: .8; }
+.ch-base { stroke: var(--line); stroke-width: 1.5; }
+
+.ch-meters { display: flex; flex-direction: column; gap: 24px; }
+.ch-meter {
+  display: grid; grid-template-columns: 240px 1fr 64px;
+  gap: 24px; align-items: center;
+  font-family: var(--font-sans); font-size: 18px;
+  font-weight: 500; letter-spacing: 0;
+  color: var(--ink-soft);
+}
+.ch-track { height: 14px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.ch-fill {
+  height: 100%; background: var(--accent); border-radius: 999px;
+  transform: scaleX(0); transform-origin: left;
+}
+.slide.on .ch-fill { animation: chFill .85s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes chFill { to { transform: scaleX(1); } }
+.ch-mval { text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ── radial arcs ──────────────────────────────────────────────── */
+/* A ring is a value: the arc length is the number, the dot sits at the head of the
+   arc so it marks where the value lands instead of decorating the canvas.
+   Set --p (0–100) and --rot (start angle) inline; pathLength="100" is required. */
+.arcs { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.arcs svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+@property --p { syntax: "<number>"; inherits: false; initial-value: 0; }
+.arc {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2;
+  stroke-dasharray: var(--p) 100;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(var(--rot, -90deg));
+}
+.arc.hot { stroke: var(--accent); }
+.arc.cool { stroke: var(--accent-2); }
+.slide.on .arc { animation: arcDraw 1.5s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes arcDraw { from { --p: 0; } }
+
+.arc-dot {
+  fill: var(--accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.slide.on .arc-dot { animation: arcPop .45s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes arcPop { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: scale(1); } }
+
+.arc-legend { list-style: none; display: flex; flex-direction: column; }
+.arc-legend li {
+  display: grid; grid-template-columns: 96px 1fr 80px; gap: 24px;
+  align-items: baseline; padding: 15px 0;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: 21px;
+  font-variant-numeric: tabular-nums;
+}
+.arc-legend li:last-child { border-bottom: 1px solid var(--line); }
+.arc-legend .yr { color: var(--ink-soft); }
+.arc-legend .v { text-align: right; font-weight: 600; }
+.arc-legend li.now .v { color: var(--accent); }
+
+/* ── chrome ───────────────────────────────────────────────────── */
+#progress {
+  position: fixed; left: 0; bottom: 0; height: 3px;
+  background: var(--accent); width: 0;
+  transition: width .25s ease; z-index: 20;
+}
+#counter {
+  position: fixed; right: 18px; bottom: 16px;
+  font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: .06em; color: var(--ink-soft);
+  background: var(--bg); padding: 3px 8px;
+  border-radius: 3px; z-index: 20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide.on { animation: none; }
+  .slide .a-mask { clip-path: none; }
+  .slide.on .kenburns img { transform: none; }
+  .slide .a { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .slide.on .ch-bar, .slide.on .ch-stroke, .slide.on .ch-area,
+  .slide.on .ch-dot, .slide.on .ch-ring, .slide.on .ch-fill,
+  .slide.on .arc, .slide.on .arc-dot { animation: none !important; }
+  .arc-dot { opacity: 1; }
+  .ch-bar { transform: scaleY(1); }
+  .ch-stroke { stroke-dashoffset: 0; }
+  .ch-area { opacity: .1; }
+  .ch-dot { opacity: 1; }
+  .ch-fill { transform: scaleX(1); }
+}
+
+/* ── print: one 1920×1080 slide per page ──────────────────────── */
+@page { size: 1920px 1080px; margin: 0; }
+@media print {
+  html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+  .deck-viewport { position: static; overflow: visible; background: #fff; }
+  .deck-stage { position: static; width: auto; height: auto; transform: none !important; }
+  .slide {
+    position: relative;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 1920px; height: 1080px;
+    break-after: page; page-break-after: always;
+  }
+  .slide:last-child { break-after: auto; page-break-after: auto; }
+  #progress, #counter { display: none !important; }
+}

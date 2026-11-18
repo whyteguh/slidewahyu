@@ -1,8 +1,26 @@
 [
   {
+    "slug": "visual-kit",
+    "title": "VISUAL KIT — komponen siap ambil",
+    "slides": 13,
+    "path": "decks/visual-kit/"
+  },
+  {
+    "slug": "twelve-weeks",
+    "title": "Dua belas minggu, bukan setahun — catatan baca",
+    "slides": 13,
+    "path": "decks/twelve-weeks/"
+  },
+  {
     "slug": "meridian-corporate",
     "title": "MERIDIAN — Corporate Slide Template",
     "slides": 12,
     "path": "decks/meridian-corporate/"
+  },
+  {
+    "slug": "fulcrum",
+    "title": "Low effort, hi impact — the fulcrum",
+    "slides": 4,
+    "path": "decks/fulcrum/"
   }
 ]

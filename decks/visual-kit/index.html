@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id" data-format="16:9">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISUAL KIT — komponen siap ambil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../themes/_base.css">
+<link rel="stylesheet" href="../../themes/paper.css">
+</head>
+<body>
+<div class="deck-viewport">
+  <div class="deck-stage">
+
+    <!-- 01 · cover -->
+    <section class="slide center">
+      <span class="kicker a">Visual kit, slidewahyu</span>
+      <h1 class="a-mask">Ambil yang<br>kamu butuh.</h1>
+      <p class="lead a measure">Setiap slide satu komponen. Salin bloknya, ganti isinya.
+        Tema tetap sama.</p>
+      <div class="foot a"><span>Wahyu Teguh</span><span>13 komponen</span></div>
+    </section>
+
+    <!-- 02 · bars -->
+    <section class="slide">
+      <span class="kicker a">01 · Bar chart</span>
+      <h2 class="a">Pendapatan per bulan.</h2>
+      <div class="fill" style="display:flex;align-items:center">
+        <div class="chart a" data-chart="bars"
+             data-values="18,26,31,44,52,61"
+             data-labels="Jan,Feb,Mar,Apr,Mei,Jun"></div>
+      </div>
+      <div class="foot a"><span>data-chart="bars"</span><span>02</span></div>
+    </section>
+
+    <!-- 03 · line -->
+    <section class="slide">
+      <span class="kicker a">02 · Line chart</span>
+      <h2 class="a">Percakapan qualified per minggu.</h2>
+      <div class="fill" style="display:flex;align-items:center">
+        <div class="chart a" data-chart="line"
+             data-values="12,19,16,28,24,37,45,41,58"
+             data-labels="Jan,Feb,Mar,Apr,Mei,Jun,Jul,Agu,Sep"></div>
+      </div>
+      <div class="foot a"><span>data-chart="line"</span><span>03</span></div>
+    </section>
+
+    <!-- 04 · donut -->
+    <section class="slide">
+      <span class="kicker a">03 · Donut</span>
+      <h2 class="a">Dari mana klien datang.</h2>
+      <div class="split fill">
+        <div class="chart a" data-chart="donut" data-values="62,38"
+             data-labels="Organik, Berbayar"></div>
+        <p class="body a measure">Enam dari sepuluh klien pertama datang dari percakapan
+          langsung, sisanya dari iklan. Angka ini menentukan ke mana waktu pergi bulan depan.</p>
+      </div>
+      <div class="foot a"><span>data-chart="donut"</span><span>04</span></div>
+    </section>
+
+    <!-- 05 · meters -->
+    <section class="slide">
+      <span class="kicker a">04 · Meter</span>
+      <h2 class="a">Corong penjualan.</h2>
+      <div class="fill" style="display:flex;align-items:center">
+        <div class="chart a" data-chart="meter"
+             data-values="86,64,41,23"
+             data-labels="Kenal, Tanya, Coba, Beli"></div>
+      </div>
+      <div class="foot a"><span>data-chart="meter"</span><span>05</span></div>
+    </section>
+
+    <!-- 06 · cards -->
+    <section class="slide">
+      <span class="kicker a">05 · Kartu</span>
+      <h2 class="a">Yang berubah di CRM.</h2>
+      <div class="cols cols-3 fill a" style="align-items:start">
+        <div class="card"><span class="num">01</span><h3>Input</h3>
+          <p class="small">Agen mengisi sebagian besar field. Sales membaca, bukan mengetik.</p></div>
+        <div class="card"><span class="num">02</span><h3>Kebenaran</h3>
+          <p class="small">Satu pelanggan punya banyak jejak. Perlu satu record yang berwenang.</p></div>
+        <div class="card"><span class="num">03</span><h3>Ukuran</h3>
+          <p class="small">Pipeline yang diisi mesin butuh metrik yang berbeda dari pipeline manual.</p></div>
+      </div>
+      <div class="foot a"><span>.cols.cols-3 + .card</span><span>06</span></div>
+    </section>
+
+    <!-- 07 · steps -->
+    <section class="slide">
+      <span class="kicker a">06 · Langkah</span>
+      <h2 class="a">Urutan pengerjaan.</h2>
+      <ol class="steps fill a" style="justify-content:center">
+        <li><span class="n">01</span><div><h3>Petakan siapa yang menulis</h3>
+          <p class="small">Setiap field punya penulis. Kalau agen, tandai dan beri jejak.</p></div></li>
+        <li><span class="n">02</span><div><h3>Tentukan satu sumber kebenaran</h3>
+          <p class="small">Satu pelanggan, satu identitas, walau jejaknya tersebar di lima sistem.</p></div></li>
+        <li><span class="n">03</span><div><h3>Ganti ukurannya</h3>
+          <p class="small">Pipeline yang diisi mesin perlu metrik baru: kualitas data, bukan kecepatan input.</p></div></li>
+        <li><span class="n">04</span><div><h3>Latih tim membaca</h3>
+          <p class="small">Nilai baru di tim: menilai kualitas data, bukan kecepatan mengetik.</p></div></li>
+      </ol>
+      <div class="foot a"><span>.steps</span><span>07</span></div>
+    </section>
+
+    <!-- 08 · timeline -->
+    <section class="slide">
+      <span class="kicker a">07 · Linimasa</span>
+      <h2 class="a">Enam minggu.</h2>
+      <div class="fill" style="display:flex;align-items:center">
+        <div class="track a" style="width:100%">
+          <div class="point"><span class="when">Minggu 1</span><h3>Riset</h3>
+            <p class="small">Peta pesaing dan harga pasar.</p></div>
+          <div class="point"><span class="when">Minggu 2–3</span><h3>Bangun</h3>
+            <p class="small">Sampel laporan pertama.</p></div>
+          <div class="point"><span class="when">Minggu 4</span><h3>Uji</h3>
+            <p class="small">Tiga percakapan nyata.</p></div>
+          <div class="point"><span class="when">Minggu 5–6</span><h3>Jual</h3>
+            <p class="small">Harga penuh, tanpa diskon.</p></div>
+        </div>
+      </div>
+      <div class="foot a"><span>.track</span><span>08</span></div>
+    </section>
+
+    <!-- 09 · quote dark -->
+    <section class="slide dark center">
+      <p class="quote a measure">CRM lama dibangun di atas satu asumsi.
+        <em>Manusia yang mengetik.</em> Asumsi itu sudah tidak benar.</p>
+      <div class="foot a"><span>.slide.dark + .quote</span><span>09</span></div>
+    </section>
+
+    <!-- 10 · big number -->
+    <section class="slide center">
+      <span class="kicker a">08 · Angka besar</span>
+      <div class="a" data-count="1098265"
+           style="font-family:var(--font-mono);font-size:300px;line-height:.9;
+           font-weight:600;letter-spacing:-.04em;color:var(--accent)">0</div>
+      <p class="lead a measure">Rupiah. Satu angka per slide. Dua angka besar di satu
+        layar saling melemahkan.</p>
+      <div class="foot a"><span>.stat .v atau angka manual</span><span>10</span></div>
+    </section>
+
+    <!-- 11 · split + image -->
+    <section class="slide">
+      <span class="kicker a">09 · Gambar + teks</span>
+      <h2 class="a">Kalau ada visual pendukung.</h2>
+      <div class="split fill">
+        <div class="ph a kenburns">taruh gambar di sini</div>
+        <div class="rows a">
+          <h3>Beri satu kalimat yang menyebut apa yang harus dilihat.</h3>
+          <p class="body measure">Kalau gambarnya butuh paragraf penjelasan, gambarnya
+            yang salah.</p>
+          <div class="rows" style="flex-direction:row;gap:12px;flex-wrap:wrap">
+            <span class="chip on">fokus</span>
+            <span class="chip">konteks</span>
+            <span class="chip">bukti</span>
+          </div>
+        </div>
+      </div>
+      <div class="foot a"><span>.split + .ph + .chip</span><span>11</span></div>
+    </section>
+
+    <!-- 12 · table -->
+    <section class="slide">
+      <span class="kicker a">10 · Tabel</span>
+      <h2 class="a">Harga.</h2>
+      <div class="fill a" style="display:flex;align-items:center">
+        <table style="width:100%;border-collapse:collapse;font-size:26px">
+          <thead>
+            <tr style="border-bottom:2px solid var(--ink)">
+              <th style="text-align:left;padding:16px 0;font-weight:500;font-size:18px;
+                  color:var(--ink-soft)">Paket</th>
+              <th style="text-align:right;padding:16px 0;font-weight:500;font-size:18px;
+                  color:var(--ink-soft)">Harga</th>
+              <th style="text-align:left;padding:16px 0 0 32px;font-weight:500;font-size:18px;
+                  color:var(--ink-soft)">Isi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--line)">
+              <td style="padding:20px 0;font-weight:600">Mini</td>
+              <td style="padding:20px 0;text-align:right;font-family:var(--font-mono)">Rp1,4 jt</td>
+              <td style="padding:20px 0 20px 32px;color:var(--ink-soft)">Satu pesaing, satu laporan</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--line)">
+              <td style="padding:20px 0;font-weight:600">Insight</td>
+              <td style="padding:20px 0;text-align:right;font-family:var(--font-mono)">Rp3,4 jt</td>
+              <td style="padding:20px 0 20px 32px;color:var(--ink-soft)">Tiga pesaing, rekomendasi</td>
+            </tr>
+            <tr>
+              <td style="padding:20px 0;font-weight:600">Monthly</td>
+              <td style="padding:20px 0;text-align:right;font-family:var(--font-mono)">Rp2,9 jt</td>
+              <td style="padding:20px 0 20px 32px;color:var(--ink-soft)">Kontrak minimum 3 bulan</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="foot a"><span>tabel polos, tanpa border vertikal</span><span>12</span></div>
+    </section>
+
+    <!-- 13 · closing -->
+    <section class="slide dark center">
+      <span class="kicker a">Selesai</span>
+      <h1 class="a" style="font-size:88px">Salin bloknya.<br>Ganti isinya.</h1>
+      <p class="lead a measure" style="color:inherit;opacity:.65">Warna ada di tema.
+        Isi ada di deck.</p>
+    </section>
+
+  </div>
+</div>
+<script src="../../charts.js"></script>
+<script src="../../deck.js"></script>
+</body>
+</html>

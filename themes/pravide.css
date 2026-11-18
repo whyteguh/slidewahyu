@@ -1,0 +1,13 @@
+/* pravide — sampled from pravide.com (17 Nov 2026).
+   Doubles as the printed report style: same tokens, see .s-report. */
+:root{
+  --bg:#FAF7F2; --surface:#FFFFFF;
+  --ink:#45413A; --ink-soft:#6A6457;
+  --line:#E7E1D5; --line-2:#DCD5C6;
+  --accent:#0E7569; --accent-2:#1F1D1A; --accent-ink:#FAF7F2;
+  --dark-bg:#1F1D1A; --dark-ink:#FAF7F2;
+  --font-sans:'Instrument Sans',system-ui,sans-serif;
+  --font-display:'Instrument Sans',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --radius:6px;
+}

@@ -1,0 +1,18 @@
+/* dossier — editorial skin: reading notes, essays, critique decks.
+   Authored for the twelve-weeks deck, not sampled from a live site, so it claims no
+   brand. Bone ground, one rust accent, sharp corners, a display serif against a
+   tight grotesque. Dark slides reuse --dark-* rather than a second theme. */
+:root{
+  --bg:#F2EEE5; --surface:#FAF7F0;
+  --ink:#15130E; --ink-soft:#6A6354;
+  --line:#D5CDBD; --line-2:#C7BEAB;
+  --accent:#A93C12; --accent-2:#1F1D1A; --accent-ink:#F2EEE5;
+
+  --dark-bg:#12110D; --dark-ink:#F2EEE5;
+  --dark-soft:#A8A292; --dark-line:#575145; --dark-surface:#1B1A15; --dark-accent:#E4622F;
+
+  --font-sans:'Inter Tight',system-ui,-apple-system,sans-serif;
+  --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --radius:0px;
+}
